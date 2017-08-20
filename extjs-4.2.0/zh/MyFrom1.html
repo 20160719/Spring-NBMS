@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" type="text/css" href="../resources/css/ext-all.css"/>
+<script type="text/javascript" src="../bootstrap.js"></script>
+<script type="text/javascript">
+
+	Ext.onReady(function(){
+	    Ext.QuickTips.init();
+		var form1=Ext.create('Ext.form.Panel',{
+			title:'Form1',
+			bodyPadding:5,
+			frame:true,
+			width:300,
+			height:200,
+			url:'aaa.php',
+			layout:'anchor',
+			defaults:{anchor:'100%'},
+			defaultType:'textfield',
+			items:[{
+					fieldLabel:'First Name',
+					name:'first',
+					allowBalank:false
+				},{
+					fieldLabel:'Last Name',
+					name:'last',
+					allowBalank:true
+				},{
+					fieldLabel:'Pass Word',
+					name:'pass',
+					allowBalank:true,
+					inputType:'password'
+				},{
+					fieldLabel:'Login Date',
+					name:'login',
+					format:'y M d hh:mm:ss',
+					value:new Date()
+				},{
+					xtype: 'textfield',
+					name: 'email',
+					fieldLabel: 'Email Address',
+					vtype: 'email'  // 表单项需填email格式
+				}
+			],
+			buttons:[{
+					text:'重置',
+					handler:function(){
+						var form=this.up('form').getForm();
+						
+						form.reset();
+					}
+				},{
+					text:'保存',
+					handler:function(){
+						var form=this.up('form').getForm();
+						if(form.isValid()){
+							form.submit({
+								success:function(){
+								
+								},failure:function(form,action){
+									Ext.Msg.alert('操作失败', 'aaa');
+								}
+							});
+						}
+					}
+				}
+			],
+			renderTo:'form1'
+		});
+		
+	});
+
+</script>
+
+</head>
+
+<body>
+<div id="form1"></div>
+</body>
+</html>

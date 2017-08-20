@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+.icon_add {
+	background-image:url(icons/arrow/add.png) ! important;
+}
+.icon_edit {
+	background-image:url(icons/plugin_edit.png) ! important;
+}
+.icon_delete {
+	background-image:url(icons/delete.png) ! important;
+}

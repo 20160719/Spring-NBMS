@@ -1,0 +1,19 @@
+// JavaScript Document
+Ext.define('Demo.view.Navigation',{
+	extend:'Ext.panel.Panel',
+	alias:'widget.Navigation',
+	title:'功能导航栏',
+	region:'west',
+	collapsible:true,
+	width:200,
+	layout:'accordion',
+	split:true,
+	items:[{
+			xtype:'SystemMenuTree',
+		},{
+			xtype:'BookMenuTree'
+		},{
+			xtype:'MessageMenuTree'
+		}
+	]
+});

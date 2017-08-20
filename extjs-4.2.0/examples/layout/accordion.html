@@ -1,0 +1,160 @@
+<html>
+<head>
+    <title>Accordion Layout</title>
+    <!-- Ext -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/ext-all.css" />
+
+    <!-- GC -->
+
+    <style type="text/css">
+        html, body {
+            font: normal 12px verdana;
+            margin: 0;
+            padding: 0;
+            border: 0 none;
+            overflow: hidden;
+            height: 100%;
+        }
+        .empty .x-panel-body {
+            padding-top:20px;
+            text-align:center;
+            font-style:italic;
+            color: gray;
+            font-size:11px;
+        }
+    </style>
+<script type="text/javascript" src="../../ext-all.js"></script>
+<script type="text/javascript">
+    Ext.require(['*']);
+	
+	Ext.define('Item', {
+		extend: 'Ext.data.Model',
+		fields: ['text', 'canDropOnFirst', 'canDropOnSecond']
+	});
+    Ext.onReady(function(){
+			var store1 = new Ext.data.TreeStore({
+				model: 'Item',
+				root: {
+					text: 'Root 1',
+					expanded: true,
+					children: [{
+						text: 'Child 1',
+						canDropOnFirst: true,
+						canDropOnSecond: true,
+						leaf: true
+					}, {
+						text: 'Child 2',
+						canDropOnFirst: true,
+						canDropOnSecond: false,
+						leaf: true
+					}, {
+						text: 'Child 3',
+						canDropOnFirst: false,
+						canDropOnSecond: true,
+						leaf: true
+					}, {
+						text: 'Child 4',
+						canDropOnFirst: false,
+						canDropOnSecond: false,
+						leaf: true
+					}]
+				}
+			});
+			var store2 = new Ext.data.TreeStore({
+				root: {
+					expanded: true,
+					children: [{
+						text: '图书查询',
+						leaf: true
+					}, {
+						text: '图书添加',
+						leaf: true
+					}, {
+						text: '图书修改',
+						leaf: true
+					}, {
+						text: '图书删除',
+						leaf: true
+					}]
+				}
+			});
+			/*
+			Ext.create('Ext.tree.Panel', {
+				title: 'Simple Tree',
+				width: 200,
+				height: 150,
+				store: store2,
+				rootVisible: false,
+				renderTo: Ext.getBody()
+			}).show();
+			
+
+            var item2 = Ext.create('Ext.Panel', {
+                title: '图书管理',
+				//icon:'../../docs/images/Ext.Editor/Ext.Editor.png',
+				disabled:false,
+				store:store2
+            });
+			*/
+			 var item2 = Ext.create('Ext.tree.Panel', {
+                title: '图书管理',
+				//icon:'../../docs/images/Ext.Editor/Ext.Editor.png',
+				disabled:false,
+				rootVisible: false,
+				store:store2,
+				listeners:{
+					click:function(){
+						Ext.Msg.alert('友情提示','aaa');
+					}
+				}
+
+            });
+
+            var item3 = Ext.create('Ext.Panel', {
+                title: 'Accordion Item 3',
+                html: '&lt;empty panel&gt;',
+                cls:'empty'
+            });
+
+            var item4 = Ext.create('Ext.Panel', {
+                title: 'Accordion Item 4',
+                html: '&lt;empty panel&gt;',
+                cls:'empty'
+            });
+
+            var item5 = Ext.create('Ext.Panel', {
+                title: 'Accordion Item 5',
+                html: '&lt;empty panel&gt;',
+                cls:'empty'
+            });
+
+            var accordion = Ext.create('Ext.Panel', {
+                title: '图书管理系统',
+                collapsible: true,
+                region:'west',
+                margins:'5 0 5 5',
+                split:true,
+                width: 210,
+                layout:'accordion',
+                //items: [item1, item2, item3, item4, item5]
+				items: [item2, item3, item4, item5]
+            });
+
+            var viewport = Ext.create('Ext.Viewport', {
+                layout:'border',
+                items:[
+                    accordion, {
+                    region:'center',
+                    margins:'5 5 5 0',
+                    cls:'empty',
+                    bodyStyle:'background:#f1f1f1',
+                    html:'<br/><br/>&lt;empty center panel&gt;'
+                }]
+            });
+        });
+    </script>
+</head>
+<body>
+<script type="text/javascript" src="../shared/examples.js"></script><!-- EXAMPLES -->
+</body>
+</html>
