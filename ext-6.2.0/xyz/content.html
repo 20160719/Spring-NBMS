@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" type="text/css" href="../build/classic/theme-crisp-touch/resources/theme-crisp-touch-all.css" />
+<link rel="stylesheet" type="text/css" href="../build/classic/theme-crisp-touch/resources/theme-crisp-touch-all-debug.css" />
+<script type="text/javascript" src="../ext-bootstrap.js"></script>
+<script type="text/javascript">
+Ext.onReady(function(){
+	Ext.Msg.alert('Status', 'Changes saved successfully.');
+	
+	Ext.define('Book', {
+		extend:'Ext.data.Model',
+		fields:[
+			{name: 'id', type: 'string'},
+			{name: 'text', type: 'string'},
+			{name: 'leaf', type: 'boolean', defaultValue : true}
+		]
+	});
+	
+	Ext.define('BookStore',{
+		extend:'Ext.data.TreeStore',
+		requires:'Book',
+		model:'Book',
+		proxy:{
+			type:'ajax',
+			url:'./BookData.json',
+			reader:{
+				type: 'json',
+				root: 'trees'
+			},
+			autoLoad:true	
+		}	
+	});
+	
+	var bookStore = Ext.create('BookStore');
+	alert(bookStore);
+
+	Ext.define('BookTree', {
+		extend: 'Ext.tree.Panel',
+    	alias: 'widget.bookTree',
+    	border: false,
+		store: 'bookStore',
+	});
+	
+	var BookStore = Ext.create('BookStore');
+	
+	var panel = Ext.create('Ext.panel.Panel', {
+		title: 'HelloWord',
+		height: 200,
+		width: 400,
+		requires:'Book',
+		model:'Book',
+		renderTo: 'aaa',
+		store: bookStore
+	});
+	panel.show();
+	
+	
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="aaa"></div>
+
+
+</body>
+</html>
