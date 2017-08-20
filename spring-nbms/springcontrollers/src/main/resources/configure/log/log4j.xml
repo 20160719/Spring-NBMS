@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="traceLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="E:/MyMaven/workspace4/Log/trace/trace.log" />
+		<param name="maxFileSize" value="2000KB" />
+		<param name="maxBackupIndex" value="20" />
+		<param name="Append" value="true" />  
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="TRACE" />
+			<param name="LevelMin" value="TRACE" />
+		</filter>
+	</appender>
+
+	<appender name="debugLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="E:/MyMaven/workspace4/Log/debug/debug.log" />
+		<param name="maxFileSize" value="2000KB" />
+		<param name="maxBackupIndex" value="10" />
+		<param name="Append" value="true" />  
+        <param name="ImmediateFlush" value="true"></param>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"></param>  
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+		<!-- filter作用？ 配置LevelMax与LevelMin限定输出到文件的日志级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="DEBUG" />
+			<param name="LevelMin" value="DEBUG" />
+		</filter>
+	</appender>
+
+	<appender name="infoLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="E:/MyMaven/workspace4/Log/info/info.log" />
+		<param name="maxFileSize" value="2000KB" />
+		<param name="maxBackupIndex" value="10" />
+		<param name="Append" value="true" />  
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="INFO" />
+			<param name="LevelMin" value="INFO" />
+		</filter>
+	</appender>
+
+	<appender name="warnLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="E:/MyMaven/workspace4/Log/warn/warn.log" />
+		<param name="maxFileSize" value="2000KB" />
+		<param name="maxBackupIndex" value="10" />
+		<param name="Append" value="true" />  
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="WARN" />
+			<param name="LevelMin" value="WARN" />
+		</filter>
+	</appender>
+
+	<appender name="errorLog" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="E:/MyMaven/workspace41/Log/error/error.log" />
+		<param name="maxFileSize" value="2000KB" />
+		<param name="maxBackupIndex" value="10" />
+		<param name="Append" value="true" />  
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %F %p %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ERROR" />
+			<param name="LevelMin" value="ERROR" />
+		</filter>
+	</appender>
+
+	<root>  
+        <priority value ="debug"/>  
+        <appender-ref ref="debugLog"/>  
+        <appender-ref ref="errorLog"/>    
+    </root>  
+
+</log4j:configuration> 

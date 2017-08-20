@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>鏍戝舰</title>
+
+<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../demo/demo.css" />
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#myTree").tree({
+			lines:true,
+			//checkbox:true,
+			data:[{    
+					"id": 1,    
+					"text": "ROOT",    
+					"state": "open",    
+					"children": [{    
+						"id": 11,    
+						"text": "Node 1",    
+						"state": "open",    
+						"children": [{    
+								"id": 11,    
+								"text": "Node 11"   
+							},{    
+								"id": 12,    
+								"text": "Node 12"   
+							}]    
+						},{    
+							"id": 2,    
+							"text": "Node 2",    
+							"state": "closed",
+							"children": [{    
+								"id": 21,    
+								"text": "Node 21",
+								"state" : "open",
+								"children": [{    
+									"id": 21,    
+									"text": "Node 21"   
+								},{    
+									"id": 22,    
+									"text": "Node 22"   
+								}]   
+								},{    
+									"id": 22,    
+									"text": "Node 22"   
+								}]      
+						}]
+				}]
+		});
+		
+		$("#treeData").treegrid({
+			//lines:true,
+			pagination:true,
+			rownumbers:true,
+		    showFooter:true,
+			idField:'id',    
+			treeField:'name',    
+			//columns:[[    
+			//	{field:'id',title:'id',hidden:true},
+			//	{field:'name',title:'Task Name',width:150}, 
+			//	{field:'number',title:'number',width:100},   
+			//	{field:'begin',title:'Begin Date',width:100},    
+			//	{field:'end',title:'End Date',width:100},
+			//	{field:'id',title:'operation',width:100,formatter:function(value,data,index){
+			//			return '<a href="javascript:void(0)" >'+value+'</a>';
+			//		}
+			//	}
+			//]],
+			onClickCell:function(field,row){
+				//alert(row.state);
+				//if("closed"==row.state){
+				//	$("#treeData").treegrid('expand',row.id);
+				//}
+				//if("open"==row.state){
+				//	$("#treeData").treegrid('collapse',row.id);
+				//}
+			},
+			onLoadSuccess:function(row,data){
+				
+			},
+			data:data
+		});
+		
+		$("#treeData").treegrid();
+	
+	});
+	
+	function operater(value,data){
+		return '<a href="javascript:void(0)" onclick="modify(\''+data.id+'\')">modify</a>';
+	}
+	
+	function modify(id){
+		alert(id);
+	}
+	
+	var data = [{
+				"id" :1,
+				"name":"aaa",
+				"begin":"2016-04-04",
+				"end":"2016-04-04",
+				"number" : "1",
+				"children":[{
+					"id" :12,
+					"name":"bbb",
+					"number" : "" ,
+					"begin":"2016-04-04",
+					"end":"2016-04-04"
+					}
+				]
+			},{
+				"id" :2,
+				"name":"aaa",
+				"begin":"2016-04-04",
+				"end":"2016-04-04",
+				"number" : "1",
+				"children":[{
+					"id" :21,
+					"name":"bbb",
+					"begin":"2016-04-04",
+					"end":"2016-04-04",
+					"number" : "2" ,
+					"children":[{
+							"id" :211,
+							"name":"ccc",
+							"begin":"2016-04-04",
+							"end":"2016-04-04",
+							"number" : "2" ,
+							"children":[{
+									"id" :2111,
+									"name":"ddd",
+									"begin":"2016-04-04",
+									"end":"2016-04-04",
+									"number" : "" ,
+									},{
+									"id" :2112,
+									"name":"eee",
+									"begin":"2016-04-04",
+									"end":"2016-04-04",
+									"number" : "" ,
+									}
+								]
+							},{
+								"id" :212,
+								"name":"fff",
+								"begin":"2016-04-04",
+								"end":"2016-04-04",
+								"number" : "" ,
+							  }
+						]
+					}
+				]
+			}
+			]   ;
+			
+	function Save(){
+		var data = $("#treeData").treegrid('getSelected');
+		if(data!=null){
+			alert(data.id);
+		}else{
+			alert("no selected");
+		}
+	}
+	
+	function Cut(){
+		var data = $("#treeData").treegrid('getSelected');
+		if(data!=null){
+			var edit = $("#treeData").treegrid('getEditor',{
+				id:data.id,
+				field:data.name
+			});
+		}else{
+			alert("no selected");
+		}
+		
+	
+	}
+
+</script>
+
+</head>
+
+<div class="easyui-panel" style="padding:5px 0;">
+	
+	<ul id="myTree" class="easyui-tree"></ul>
+
+</div>
+
+<div class="easyui-panel" style="padding:5px 0;">
+	
+	<table id="treeData" class="easyui-treegrid" style="width:700px;height:300px" title="Treegrid" toolbar="#tb">
+		<thead>
+			<tr>
+				<th field="id" hidden="true" >id</th>
+				<th field="name" width="150" >Task Name</th>
+				<th field="number" width="100" align="center">number</th>
+				<th field="begin" width="100" align="center">Begin Date</th>
+				<th field="end" width="100" align="center">End Date</th>
+				<th field="aa" width="100" formatter="operater" align="center">operation</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div id="tb" style="padding-left:30px;">
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="Add();">Add</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onclick="Cut();">Cut</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="Save();">Save</a>
+</div>
+
+<body>
+</body>
+</html>

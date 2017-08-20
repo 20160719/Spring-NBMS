@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myself.persistences.mapper.system.RoleMapper">
+	
+	<select id="queryTrees" resultType="com.myself.persistences.entity.Tree">
+		SELECT ROLE_ID "id", TOLE_PATENT_ID "parentId", ROLE_NAME "name", ROLE_CREATE_TIME "createTime", ROLE_MODIFY_TIME "modifyTime",
+				ROLE_VISIBLE "visible", ROLE_VALID "valid", ROLE_LEVEL "level", ROLE_SEQ "seq", ROLE_ACCOUNT "account", ROLE_REMARK "remark"
+    		FROM T_ROLE
+	</select> 
+	
+	<!-- 批量插入 -->
+	<insert id="creates" parameterType="java.util.List">
+		INSERT INTO T_ROLE(ROLE_ID, TOLE_PATENT_ID, ROLE_NAME, ROLE_CREATE_TIME, ROLE_MODIFY_TIME,
+					 ROLE_VISIBLE, ROLE_VALID, ROLE_LEVEL, ROLE_SEQ, ROLE_ACCOUNT, ROLE_REMARK) VALUES
+			<foreach collection="list" item="role" index="index" separator=",">
+				(#{role.id,jdbcType=VARCHAR},
+				 #{role.parentId,jdbcType=VARCHAR},
+				 #{role.name,jdbcType=VARCHAR},
+				 #{role.createTime,jdbcType=VARCHAR},
+				 #{role.modifyTime,jdbcType=VARCHAR},
+				 #{role.visible,jdbcType=VARCHAR},
+				 #{role.valid,jdbcType=VARCHAR},
+				 #{role.level,jdbcType=VARCHAR},
+				 #{role.seq,jdbcType=VARCHAR},
+				 #{role.account,jdbcType=VARCHAR},
+				 #{role.remark,jdbcType=VARCHAR})
+			</foreach>
+	</insert>
+	
+		<!-- 批量更新 -->
+	<update id="modifies" parameterType="java.util.List">
+	   UPDATE T_ROLE 
+	   <trim prefix="SET" suffixOverrides=",">
+	   		<trim prefix="ROLE_NAME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.name)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.name,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_VISIBLE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.visible)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.visible,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_VALID=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.valid)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.valid,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_LEVEL=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.level)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.value,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_SEQ=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.seq)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.seq,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ACCOUNT=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.account)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.account,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_REMARK=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.remark)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.remark,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="ROLE_MODIFY_TIME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="role" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(role.modifyTime)">
+	   			 		WHEN ROLE_ID=#{role.id} then #{role.modifyTime,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   </trim>
+	   WHERE ROLE_ID IN
+	   <foreach collection="list" item="role" index="index" open="(" close=")" separator=",">
+           #{role.id}
+       </foreach>
+	</update>
+	
+	<delete id="deletes" parameterType="java.util.List">
+		DELETE FROM T_ROLE WHERE ROLE_ID IN
+		<foreach collection="list" index="index" item="role" open="(" close=")" separator=",">
+			#{role.id}
+		</foreach>
+	</delete>
+	
+</mapper>

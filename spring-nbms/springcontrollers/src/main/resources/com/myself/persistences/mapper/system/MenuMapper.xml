@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myself.persistences.mapper.system.MenuMapper">
+	
+	<select id="queryTrees" resultType="com.myself.persistences.entity.Tree">
+		SELECT MENU_ID "id", MENU_PARENT_ID "parentId", MENU_NAME "name", MENU_URL "value", MENU_TYPE "type", MENU_VALID "valid", MENU_VISIBLE "visible", MENU_LEVEL "level",
+				MENU_CREATE_TIME "createTime", MENU_MODIFY_TIME "modifyTime", MENU_ACCOUNT "account", MENU_REMARK "remark", MENU_SEQ "seq", MENU_OPCODE "opCode"
+    		FROM T_MENU
+	</select> 
+	
+	<!-- 批量插入 -->
+	<insert id="creates" parameterType="java.util.List">
+		INSERT INTO T_MENU(MENU_ID, MENU_PARENT_ID, MENU_NAME, MENU_URL, MENU_TYPE, MENU_VALID, MENU_VISIBLE, MENU_LEVEL,
+							 MENU_CREATE_TIME, MENU_MODIFY_TIME, MENU_ACCOUNT, MENU_REMARK, MENU_SEQ, MENU_OPCODE) VALUES
+			<foreach collection="list" item="menu" index="index" separator=",">
+				(#{menu.id,jdbcType=VARCHAR},
+				 #{menu.parentId,jdbcType=VARCHAR},
+				 #{menu.name,jdbcType=VARCHAR},
+				 #{menu.value,jdbcType=VARCHAR},
+				 #{menu.type,jdbcType=VARCHAR},
+				 #{menu.valid,jdbcType=VARCHAR},
+				 #{menu.visible,jdbcType=VARCHAR},
+				 #{menu.level,jdbcType=VARCHAR},
+				 #{menu.createTime,jdbcType=DATE},
+				 #{menu.modifyTime,jdbcType=DATE},
+				 #{menu.account,jdbcType=VARCHAR},
+				 #{menu.remark,jdbcType=VARCHAR},
+				 #{menu.seq,jdbcType=VARCHAR},
+				 #{menu.opCode,jdbcType=VARCHAR})
+			</foreach>
+	</insert>
+	
+		<!-- 批量更新 -->
+	<update id="modifies" parameterType="java.util.List">
+	   UPDATE T_MENU
+	   <trim prefix="SET" suffixOverrides=",">
+	   		<trim prefix="MENU_NAME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.name)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.name,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+		    <trim prefix="MENU_URL=CASE" suffix="end,">
+			    <foreach collection="list" item="menu" index="index">
+				    <if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.value)">
+					   WHEN MENU_ID=#{menu.id} then #{menu.value,jdbcType=VARCHAR}
+				    </if>
+			    </foreach>
+		    </trim>
+	   		<trim prefix="MENU_SEQ=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.seq)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.seq,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_LEVEL=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.level)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.level,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_TYPE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.type)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.type,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_VALID=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.valid)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.valid,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_VISIBLE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.visible)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.visible,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_ACCOUNT=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.account)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.account,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_REMARK=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.remark)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.remark,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="MENU_MODIFY_TIME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="menu" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.modifyTime)">
+	   			 		WHEN MENU_ID=#{menu.id} then #{menu.modifyTime,jdbcType=DATE}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+		    <trim prefix="MENU_OPCODE=CASE" suffix="end,">
+			    <foreach collection="list" item="menu" index="index">
+				   <if test="@com.myself.common.utils.StringUtils@isNotBlank(menu.opCode)">
+					   WHEN MENU_ID=#{menu.id} then #{menu.opCode,jdbcType=VARCHAR}
+				   </if>
+			    </foreach>
+		    </trim>
+	   </trim>
+	   WHERE MENU_ID IN
+	   <foreach collection="list" item="menu" index="index" open="(" close=")" separator=",">
+           #{menu.id}
+       </foreach>
+	</update>
+	
+	<delete id="deletes" parameterType="java.util.List">
+		DELETE FROM T_MENU WHERE MENU_ID IN
+		<foreach collection="list" index="index" item="menu" open="(" close=")" separator=",">
+			#{menu.id}
+		</foreach>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myself.persistences.mapper.system.UserMapper">
+	
+	<sql id="user_select_sql_1">
+		ACCOUNT "account", `PASSWORD` "password", USER_TYPE_ID "userTypeId", USER_TYPE_NAME "userTypeName", USER_ID "userId", USER_NAME "userName",
+		USER_SEX "userSex", USER_AGE "userAge", BIRTHDAY "birthday", ADDRESS "address", ROLE_IDS "roleIds"
+	</sql>
+	
+	<sql id="where">
+		WHERE 1=1 
+	</sql>
+	
+	<sql id="query_condition">
+		<if test="@com.myself.common.utils.StringUtils@isNotBlank(record.account)">
+				AND ACCOUNT=#{record.account}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(record.password)">
+				AND PASSWORD=#{record.password}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(record.userId)">
+			    AND USER_ID=#{record.userId}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(record.userName)">
+				AND USER_NAME=#{record.userName}
+		 </if>
+	</sql>
+	
+	
+	<select id="load" resultType="com.myself.persistences.entity.system.User" parameterType="com.myself.persistences.entity.system.User">
+		SELECT <include refid="user_select_sql_1"/>
+			FROM T_USER <include refid="where"/> <include refid="query_condition"/>
+	</select>
+	
+	<!-- 批量插入 -->
+	<insert id="creates" parameterType="java.util.List">
+		INSERT INTO T_USER(ACCOUNT,`PASSWORD`,USER_TYPE_ID,USER_TYPE_NAME,USER_ID,
+				USER_NAME,USER_SEX,USER_AGE,BIRTHDAY,ADDRESS) VALUES
+			<foreach collection="list" item="user" index="index" separator=",">
+				(#{user.account,jdbcType=VARCHAR},
+				 #{user.password,jdbcType=VARCHAR},
+				 #{user.userId,jdbcType=VARCHAR},
+				 #{user.userName,jdbcType=VARCHAR},
+				 #{user.userSex,jdbcType=VARCHAR},
+				 #{user.userAge,jdbcType=VARCHAR},
+				 #{user.brithday,jdbcType=VARCHAR})
+			</foreach>
+	</insert>
+	
+		<!-- 批量更新 -->
+	<update id="modifies" parameterType="java.util.List">
+	   UPDATE T_USER 
+	   <trim prefix="SET" suffixOverrides=",">
+	   		<trim prefix="PASSWORD=CASE" suffix="end,">
+	   			 <foreach collection="list" item="user" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(perm.value)">
+	   			 		WHEN USER_ID=#{user.userId} THEN #{user.password,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   </trim>
+	   WHERE USER_ID IN
+	   <foreach collection="list" item="user" index="index" open="(" close=")" separator=",">
+           #{user.userId}
+       </foreach>
+	</update>
+	
+	<delete id="deletes" parameterType="java.util.List">
+		DELETE FROM T_USER WHERE USER_ID IN
+		<foreach collection="list" index="index" item="user" open="(" close=")" separator=",">
+			#{user.userId}
+		</foreach>
+	</delete>
+	
+</mapper>

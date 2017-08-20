@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myself.persistences.mapper.basic.BookMapper">
+	
+	<sql id="book_select_sql_1">
+		BOOK_TYPE_ID "bookTypeId",BOOK_ID "bookId",BOOK_NAME "bookName",BOOK_AUTHOR "bookAuthor",
+		BOOK_IMAGE "bookImage",BOOK_PUB_TIME "bookPubTime",BOOK_PRICE "bookPrice",BOOK_IS_ONLINE "bookIsOnline"
+	</sql>
+	
+	<sql id="book_select_sql_2">
+		bk.bookId,bk.bookName,bk.bookAuthor,bk.bookImage,bk.publicationTime,bk.bookTypeId,bk.price
+	</sql>
+	
+	<!-- <![CDATA[ ((${page.index}-1)*(${page.size})),${page.size} ]]> -->
+	
+	<select id="querys" parameterType="com.myself.persistences.entity.basic.Book" resultType="com.myself.persistences.entity.basic.Book">
+		 SELECT
+		 <include refid="book_select_sql_1"/> 
+		 FROM BOOK WHERE 1=1 
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookId)">
+				AND bookId=#{bookId}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookName)">
+				AND bookName=#{bookName}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookAuthor)">
+				AND bookAuthor=#{bookAuthor}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookTypeId)">
+			    AND bookTypeId=#{bookTypeId}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookImage)">
+			    AND bookImage=#{bookImage}
+		 </if>
+		 <if test="@com.myself.common.utils.StringUtils@isNotBlank(bookPubTime)">
+			    AND publicationTime=#{bk.bookPubTime,jdbcType=DATE}
+		 </if>
+	</select>
+	
+	<select id="queryBooks" parameterType="java.util.Map" resultType="com.myself.persistences.entity.basic.Book">
+		SELECT
+		<include refid="book_select_sql_2"/> 
+		FROM T_BOOK bk WHERE 1=1 
+		<if test="@com.myself.common.utils.StringUtils@isNotBlank(bookName)">
+			AND bk.bookName = #{bookName,jdbcType=VARCHAR}
+		 </if>
+	</select>
+
+	<select id="load" parameterType="com.myself.persistences.entity.basic.Book" resultType="com.myself.persistences.entity.basic.Book">
+		SELECT 
+		<include refid="book_select_sql_1"/>  
+		FROM T_BOOK WHERE BOOK_ID = #{record.bookId}  
+	</select>
+	
+	<!-- 批量插入 -->
+	<insert id="creates" parameterType="java.util.List">
+		INSERT INTO T_BOOK(BOOK_TYPE_ID,BOOK_ID,BOOK_NAME,BOOK_AUTHOR,
+					BOOK_IMAGE,BOOK_PUB_TIME,BOOK_PRICE,BOOK_IS_ONLINE) VALUES
+			<foreach collection="list" item="bk" index="index" separator=",">
+				(#{bk.bookTypeId,jdbcType=VARCHAR},
+				 #{bk.bookId,jdbcType=VARCHAR},
+				 #{bk.bookName,jdbcType=VARCHAR},
+				 #{bk.bookAuthor,jdbcType=VARCHAR},
+				 #{bk.bookImage,jdbcType=VARCHAR},
+				 #{bk.bookPubTime,jdbcType=DATE},
+				 #{bk.bookPrice,jdbcType=REAL},
+				 #{bk.bookIsOnline,jdbcType=VARCHAR})
+			</foreach>
+	</insert>
+	
+	<!-- 批量更新 -->
+	<update id="modifys" parameterType="java.util.List">
+	   UPDATE T_BOOK 
+	   <trim prefix="SET" suffixOverrides=",">
+	   		<trim prefix="BOOK_TYPE_ID=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookTypeId)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookTypeId,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_NAME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookName)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookName,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_AUTHOR=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookAuthor)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookAuthor,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_IMAGE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookImage)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookImage,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_PUB_TIME=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookPubTime)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookPubTime,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_PRICE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookPrice)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookPrice,jdbcType=FLOAT}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   		<trim prefix="BOOK_IS_ONLINE=CASE" suffix="end,">
+	   			 <foreach collection="list" item="bk" index="index">
+	   			 	<if test="@com.myself.common.utils.StringUtils@isNotBlank(bk.bookIsOnline)">
+	   			 		WHEN BOOK_ID=#{bk.bookId} then #{bk.bookIsOnline,jdbcType=VARCHAR}
+	   			 	</if>
+	   			 </foreach>
+	   		</trim>
+	   </trim>
+	   WHERE BOOK_ID IN
+	   <foreach collection="list" item="bk" index="index" open="(" close=")" separator=",">
+           #{bk.bookId}
+       </foreach>
+	</update>
+	
+	<delete id="deletes" parameterType="java.util.List">
+		DELETE FROM T_BOOK WHERE BOOK_ID IN
+		<foreach collection="list" index="index" item="it" open="(" close=")" separator=",">
+			#{it.bookId}
+		</foreach>
+	</delete>
+	
+</mapper>

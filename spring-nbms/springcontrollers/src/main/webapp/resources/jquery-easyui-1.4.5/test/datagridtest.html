@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>鏁版嵁琛ㄦ牸</title>
+
+<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../demo/demo.css" />
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#datagrid").datagrid({
+			pagination:"true",
+			data:[
+				{"name1":"aaa1","name2":"aaa2","name3":"aaa3","name4":"aaa4","name5":"aaa5"},
+				{"name1":"bbb1","name2":"bbb2","name3":"bbb3","name4":"bbb4","name5":"bbb5"}
+			]
+			
+		});
+	
+	});
+
+</script>
+
+</head>
+
+<div class="easyui-panel" style="padding:5px 0;">
+	
+	<table id="datagrid" class="easyui-datagrid" title="鏁版嵁琛ㄦ牸" style="width:510px;height:300px">
+		<thead>
+			<tr>
+				<th field="name1" width="100">Col 1</th>
+				<th field="name2" width="100">Col 2</th>
+				<th field="name3" width="100">Col 3</th>
+				<th field="name4" width="100">Col 4</th>
+				<th field="name5" width="100">Col 5</th>
+			</tr>                          
+		</thead>    
+	</table>
+
+</div>
+
+<body>
+</body>
+</html>

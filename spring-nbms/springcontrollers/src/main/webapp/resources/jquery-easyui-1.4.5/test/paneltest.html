@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>闈㈡澘</title>
+
+<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../demo/demo.css" />
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+<script type="text/javascript">
+
+	function add(){
+		alert("aaa");
+		var body1 = $("#panel").panel("body").find("div");
+		alert(body1);
+	}
+	
+	function edit(){
+		var content ='<div>aaaaaaa</div>';
+		$("#panel").panel({
+			content : content
+		});
+	}
+
+</script>
+
+
+</head>
+<body>
+
+	<div id="panel" class="easyui-panel" style="width:300px;height:200px" title="My Panel" data-options="iconCls:'icon-ok',tools:'#tt'">
+		aaa
+	</div>
+	<div id="tt">
+		<a href="javascript:void(0)" class="icon-add" onClick="add();"></a>
+		<a href="javascript:void(0)" class="icon-edit" onClick="edit();"></a>
+	</div>
+
+
+</body>
+</html>

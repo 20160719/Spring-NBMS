@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>鏍戝舰</title>
+
+<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../demo/demo.css" />
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+<script type="text/javascript">
+
+	
+
+</script>
+</head>
+<body>
+
+<div class="easyui-panel" style="padding:5px 0;">
+    <select id="cc" class="easyui-combotree" style="width:200px;"   
+        data-options="required:true,checkbox:true,multiple:true,
+        			  cascadeCheck:false,lines:true,
+        			  textfield:'id',valueField:'text',
+                      data:[{    
+                        'id':1,    
+                        'text':'Folder1',    
+                        'children':[{   
+                        	 'id':2,     
+                            'text':'File1',    
+                            'checked':true   
+                        },{    
+                        	 'id':3,     
+                            'text':'Books',    
+                            'state':'open',    
+                            'children':[{    
+                             	'id': 7,    
+                                'text':'PhotoShop',    
+                            },{    
+                                'id': 8,    
+                                'text':'Sub Bookds'
+                            }]    
+                        }]     
+                    }],onLoadSuccess:function(node,data){
+                    	$('#cc').combotree('setValue','1');
+                    },onCheck:function(node,checked){
+                        if(checked){
+                        	var childs = $(this).tree('getChildren',node.target);
+                            for(var i = 0;i<childs.length; i++){
+                            	$(this).tree('check',childs[i].target);
+                            }
+                        } else {
+                        	var childs = $(this).tree('getChildren',node.target);
+                            for(var i = 0;i<childs.length; i++){
+                            	$(this).tree('uncheck',childs[i].target);
+                            }
+                        }
+                    }"></select>  
+    
+    
+</div>
+
+</body>
+</html>

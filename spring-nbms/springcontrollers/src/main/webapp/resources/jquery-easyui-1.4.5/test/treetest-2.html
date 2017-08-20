@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TreeGrid</title>
+
+<link rel="stylesheet" type="text/css" href="../themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="../demo/demo.css" />
+
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.easyui.min.js"></script>
+<script type="text/javascript" src="map.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$("#treeData").treegrid({
+			width:750,
+			height:300,
+			idField:'menuId',    
+			treeField:'menuName',    
+			columns:[[    
+				{field:'menuName',title:'MenuName',width:150,editor:'text'}, 
+				{field:'menuUrl',title:'MenuUrl',width:100,editor:'text'},   
+				{field:'menuIsValid',title:'MenuIsValid',width:100,editor:'text'},
+				{field:'menuLevel',title:'MenuLevel',width:100},
+				{field:'menuRemark',title:'MenuRemark',width:100,editor:'text'},
+				{field:'menuId',title:'Operation',width:150,formatter:function(value,row,index){
+					return '<a href="javascript:void(0)" onclick="edit(\''+row.menuId+'\')">Edit</a>&nbsp;&nbsp;'+
+						   '<a href="javascript:void(0)" onclick="cancel(\''+row.menuId+'\')">Cancel</a>&nbsp;&nbsp;'+
+						   '<a href="javascript:void(0)" onclick="save(\''+row.menuId+'\')">Update</a>';
+				}},
+			]],
+			onLoadSuccess:function(row,data){
+				//alert(data.id);
+			},
+			onClickCell:function(field,row){
+				//alert(row.id + field);
+				//var param = {'id':row.id,'field':field};
+				//var edit = $("#treeData").treegrid('getEditor', param);
+			},
+			lines:true,
+			//pagination:true,
+			rownumbers:true,
+		    //showFooter:true
+		});
+		
+	});
+	
+	//鍒涘缓鑺傜偣Map
+	var createNodeMap = new Map();
+	//鍒犻櫎鑺傜偣Map
+	var deleteNodeMap = new  Map();
+	//鏇存柊鑺傜偣Map
+	var updateNodeMap = new Map();
+	
+	//鍒涘缓鏂板瓙鐨勮妭鐐�
+	function createChildMenu(node) {
+		var date = new Date();
+		var menuParentId = "";
+		var menuId = date.getTime() + "";
+		var menuName = "UnKnow";
+		var menuUrl = "#";
+		var menuIsValid = "1";
+		var menuLevel = 0;
+		var menuRemark = "remark";
+		var menuIsNew = "1";
+		if(null == node) {
+			menuParentId = "ROOT";
+			menuName = "ROOT";
+		} else {
+			menuParentId = node.menuId;
+			menuLevel = node.menuLevel + 1;
+		}	
+		var newMenu = {"menuParentId":menuParentId,"menuId":menuId,"menuName":menuName,
+					   "menuUrl":menuUrl,"menuIsValid":menuIsValid,"menuLevel":menuLevel,
+					   "menuRemark":menuRemark,"menuIsNew":menuIsNew};
+		return newMenu;
+	}
+	
+	function appendNodeAdd(tree, node) {
+		tree.treegrid('append',{
+			parent:node.menuParentId,
+			data:[node]
+		});
+	}
+	
+	//娣诲姞鑺傜偣鏂规硶
+	function add(index){
+		var tree = $("#treeData");
+		var root = tree.treegrid('getRoot');
+		var node = null;
+		if(root == null) {
+			node = createChildMenu(null);
+			appendNodeAdd(tree, node);
+			createNodeMap.put(node.menuId+"", node);
+			return ;
+		}
+		node = tree.treegrid('getSelected');
+		if(node == null){
+			alert("aaa");
+			return ;
+		} else {
+			if(0 == index) {
+				node = createChildMenu(node);
+				appendNodeAdd(tree, node);
+				createNodeMap.put(node.menuId+"", node);
+				return ;
+			}
+		}
+	}
+	
+	//鑺傜偣缂栬緫
+	function edit(id){
+		var tree = $("#treeData");
+		tree.treegrid('beginEdit',id);
+	}
+	//鍙栨秷鑺傜偣缂栬緫
+	function cancel(id){
+		var tree = $("#treeData");
+		tree.treegrid('cancelEdit',id);
+	}
+	//鑺傜偣淇濆瓨
+	function save(id){
+		var tree = $("#treeData");
+		tree.treegrid('endEdit',id);
+		var node =tree.treegrid('find',id);
+		if("1" == node.menuIsNew){
+			createNodeMap.remove(node.menuId+"");
+			createNodeMap.put(node.menuId+"", node);
+		} else {
+			updateNodeMap.put(node.menuId+"", node);
+		}
+	}
+	//鍒犻櫎鑺傜偣
+	function removeNode() {
+		var tree = $("#treeData");
+		var node = tree.treegrid('getSelected');
+		tree.treegrid('remove',node.menuId);
+		if("1" == node.menuIsNew){
+			createNodeMap.remove(node.menuId+"");
+		} else {
+			deleteNodeMap.put(node.menuId+"",node.menuId);
+		}
+		
+	}
+	//鑺傜偣鎵撳嵃
+	function printNode(){
+		var tree = $("#treeData");
+		var data = tree.treegrid('getRoot');
+		printNodes(data);
+		var children = tree.treegrid('getChildren',data.menuId);
+		for(var i = 0; i < children.length; i++){
+			printNodes(children[i]);
+		}
+	}
+	
+	function commit(){
+		var createNode = createNodeMap.values();
+		for(var i = 0; i < createNode.length; i++){
+			printNodes(createNode[i]);
+		}
+	}
+	
+	function see(node){
+		var logg = 'menuParentId:'+node.menuParentId+',menuId:'+node.menuId+',menuName:'+node.menuName+
+		           ',menuUrl:'+node.menuUrl+',menuIsValid:'+node.menuIsValid+',menuLevel:'+node.menuLevel+
+				   ',menuRemark:'+node.menuRemark+',menuIsNew:'+node.menuIsNew;
+		alert(logg);
+	}
+	
+	function printNodes(node){
+		var logg = 'menuParentId:'+node.menuParentId+',menuId:'+node.menuId+',menuName:'+node.menuName+
+		           ',menuUrl:'+node.menuUrl+',menuIsValid:'+node.menuIsValid+',menuLevel:'+node.menuLevel+
+				   ',menuRemark:'+node.menuRemark+',menuIsNew:'+node.menuIsNew;
+		console.log(logg);
+	}
+	
+</script>
+
+</head>
+<body>
+
+<div class="easyui-panel" style="padding:5px 0;">
+	<table id="treeData" class="easyui-treegrid" title="TreeGrid" toolbar="#tb">
+		
+	</table>
+	
+</div>
+
+<div id="tb" style="padding-left:30px;">
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onClick="add(0);">Add </a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onClick="removeNode();">Remove</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cut" plain="true" onClick="printNode();">Print</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onClick="commit();">Commit</a>
+</div>
+
+</body>
+</html>
