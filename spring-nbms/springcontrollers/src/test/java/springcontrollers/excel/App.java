@@ -140,7 +140,6 @@ class ExcelUtils {
 			} 
 		});
 
-		System.out.println("close...");
 		long eTime = new Date().getTime();
 		System.out.println("total time: " + (eTime - sTime));
 	}
