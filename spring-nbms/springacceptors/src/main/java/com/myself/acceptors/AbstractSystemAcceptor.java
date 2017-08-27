@@ -44,8 +44,7 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 	 * @return List<T>
 	 * TODO
 	 */
-	@SuppressWarnings("hiding")
-	protected <T> List<T> query(IListQuery<T> listQuery) throws CustomException {
+	protected List<T> query(IListQuery<T> listQuery) throws CustomException {
 		try {
 			return listQuery.queries();
 		} catch (Exception e) {
