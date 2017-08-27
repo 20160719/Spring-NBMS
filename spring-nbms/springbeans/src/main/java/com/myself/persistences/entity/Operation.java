@@ -17,6 +17,8 @@ public class Operation extends TargetHis {
 	
 	// 序列号
 	private String serialNum;
+	
+	private String seq;
 	// 操作码
 	private String opCode;
 	// 操作类型
@@ -30,6 +32,14 @@ public class Operation extends TargetHis {
 
 	public void setSerialNum(String serialNum) {
 		this.serialNum = serialNum;
+	}
+
+	public String getSeq() {
+		return seq;
+	}
+
+	public void setSeq(String seq) {
+		this.seq = seq;
 	}
 
 	public String getOpCode() {
