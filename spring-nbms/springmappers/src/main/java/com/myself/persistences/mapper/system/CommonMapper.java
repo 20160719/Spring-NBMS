@@ -3,8 +3,10 @@ package com.myself.persistences.mapper.system;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public abstract interface CommonMapper {
 	
 	/**

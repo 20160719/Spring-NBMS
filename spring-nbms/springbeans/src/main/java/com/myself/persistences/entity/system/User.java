@@ -123,18 +123,11 @@ public class User extends Account {
 
 	@Override
 	public String toString() {
-		return "User [" +
-				"userTypeId='" + userTypeId + '\'' +
-				", userTypeName='" + userTypeName + '\'' +
-				", userId='" + userId + '\'' +
-				", userName='" + userName + '\'' +
-				", userSex='" + userSex + '\'' +
-				", userAge='" + userAge + '\'' +
-				", birthday='" + birthday + '\'' +
-				", address='" + address + '\'' +
-				", createTime=" + createTime +
-				", modifyTime=" + modifyTime +
-				", roleIds='" + roleIds + '\'' +
-				']';
+		return "User [userTypeId=" + userTypeId + ", userTypeName=" + userTypeName + ", userId=" + userId
+				+ ", userName=" + userName + ", userSex=" + userSex + ", userAge=" + userAge + ", birthday=" + birthday
+				+ ", address=" + address + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", roleIds="
+				+ roleIds + ", account=" + account + ", password=" + password + "]";
 	}
+
+
 }

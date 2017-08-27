@@ -153,6 +153,7 @@ function save() {
 	tree.treegrid('endEdit', selected.id);
 	var node =tree.treegrid('find', selected.id);
 	if("1" == node.isNew){
+		createNodeMap.remove(node.id);
 		createNodeMap.put(node.id, node);
 	} else {
 		updateNodeMap.put(node.id, node);
@@ -212,6 +213,10 @@ function commit() {
 	if(flag > 0) {
 		$("#roleTree").treegrid("reload");
 	}
+}
+
+function searchs() {
+	$("#roleTree").treegrid("reload");
 }
 
 function getSelected() {
