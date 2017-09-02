@@ -89,7 +89,7 @@
 	</bean>
 	
 		
-	<!-- <import resource="applicationContext_transaction.xml"/> -->
+	<import resource="applicationContext_transaction.xml"/>
 
 	<!--<import resource="applicationContext_redis.xml"/>-->
 

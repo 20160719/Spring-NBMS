@@ -24,16 +24,16 @@
                         <tx:method name="modifyAcceptor" propagation="REQUIRED" rollback-for="Exception"></tx:method>
                         <tx:method name="queryAcceptor" read-only="true"></tx:method>
                 </tx:attributes>
-        </tx:advice> -->
+        </tx:advice>
 
-        <!-- <aop:config>
+        <aop:config>
                 <aop:pointcut id="acceptorPointCut" expression="execution(* com.busi.acceptor.*.impl.*.*(..))"/>
                 <aop:pointcut id="acceptorPointCut" expression="execution(* com.test.business.ModifyAcceptor.modifyAcceptor(..))"/>
                 <aop:advisor advice-ref="txAcceptorAdvice" pointcut-ref="acceptorPointCut"/>
         </aop:config> -->
 
         <!-- 服务层事务注解  -->
-        <tx:advice id="txServiceAdvice" transaction-manager="transactionManager">
+       <!--  <tx:advice id="txServiceAdvice" transaction-manager="transactionManager">
              <tx:attributes>
                   <tx:method name="create*" propagation="REQUIRED" rollback-for="Exception"></tx:method>
                   <tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception"></tx:method>
@@ -46,6 +46,6 @@
         <aop:config>
             <aop:pointcut id="servicePointCut" expression="execution(* com.myself.services.*.impl.*.*(..))"/>
             <aop:advisor advice-ref="txServiceAdvice" pointcut-ref="servicePointCut"/>
-        </aop:config>
+        </aop:config> -->
 
 </beans>

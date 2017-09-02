@@ -5,10 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -127,17 +129,24 @@ class ExcelUtils {
 	private static void createExcel(Workbook workBook, List<SplitList<Person>> splitList) throws Exception {
 		long sTime = new Date().getTime();
 		Sheet sheet = workBook.createSheet("sheet");
-
-		splitList.stream().forEach(sp -> {
+	
+		splitList.stream().map(sp -> {
 			try {
-				CompletableFuture.runAsync(() -> {
+				return CompletableFuture.runAsync(() -> {
 					sp.list.stream().forEach(p -> {
 						createRow(sheet, p);
 					});
-				}).get();
+				});
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
+				return null;
+			}
+		}).collect(Collectors.toList()).stream().forEach(f -> {
+			try {
+				f.get();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 
 		long eTime = new Date().getTime();
