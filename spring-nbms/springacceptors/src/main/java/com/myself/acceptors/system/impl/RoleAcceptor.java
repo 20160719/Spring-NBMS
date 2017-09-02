@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myself.acceptors.AbstractSystemAcceptor;
 import com.myself.acceptors.BusinessResult;
@@ -27,18 +29,21 @@ public class RoleAcceptor extends AbstractSystemAcceptor<Tree> implements IRoleA
 
 	@Override
 	@CacheEvict(value = {"allRoleResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
 	@CacheEvict(value = {"allRoleResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
 	@CacheEvict(value = {"allRoleResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().deletes(list), Operation.OP_DELETE);
 	}

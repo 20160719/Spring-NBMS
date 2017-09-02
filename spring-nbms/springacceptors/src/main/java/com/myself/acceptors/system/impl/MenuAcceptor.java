@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myself.acceptors.AbstractSystemAcceptor;
 import com.myself.acceptors.BusinessResult;
@@ -27,18 +29,21 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 
 	@Override
 	@CacheEvict(value = {"allMenuResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getMenuService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
 	@CacheEvict(value = {"allMenuResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getMenuService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
 	@CacheEvict(value = {"allMenuResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getMenuService().deletes(list), Operation.OP_DELETE);
 	}

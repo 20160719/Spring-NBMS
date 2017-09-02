@@ -4,6 +4,8 @@ import com.myself.persistences.entity.Operation;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myself.acceptors.AbstractSystemAcceptor;
 import com.myself.acceptors.BusinessResult;
@@ -17,16 +19,19 @@ import com.myself.persistences.entity.system.User;
 public class UserAcceptor extends AbstractSystemAcceptor<User> implements IUserAcceptor {
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult creates(AbsBusinessObj<User> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getUserService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult modifies(AbsBusinessObj<User> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getUserService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult deletes(AbsBusinessObj<User> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getUserService().deletes(list), Operation.OP_DELETE);
 	}

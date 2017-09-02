@@ -10,6 +10,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myself.acceptors.AbstractSystemAcceptor;
 import com.myself.acceptors.BusinessResult;
@@ -29,18 +31,21 @@ public class PermsAcceptor extends AbstractSystemAcceptor<Permission> implements
 
 	@Override
 	@CacheEvict(value = {"allPermissionResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult creates(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
 	@CacheEvict(value = {"allPermissionResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult modifies(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
 	@CacheEvict(value = {"allPermissionResources"}, allEntries = true)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public BusinessResult deletes(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().deletes(list), Operation.OP_DELETE);
 	}

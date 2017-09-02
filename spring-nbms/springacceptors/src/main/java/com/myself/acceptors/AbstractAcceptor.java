@@ -25,6 +25,7 @@ public abstract class AbstractAcceptor<T> {
 		beforeAcceptor.beforeAcceptor(absBusinessObj);
 		Object obj = processing(doAcceptor, absBusinessObj.getList());
 		afterAcceptor.afterAcceptor();
+		//int i = 1 / 0;
 		return getBusinessResult().setIntResult((Integer) obj);
 	}
 
