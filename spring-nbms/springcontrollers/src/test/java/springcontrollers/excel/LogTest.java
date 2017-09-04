@@ -10,10 +10,12 @@ public class LogTest {
 
 	@Test
 	public void test() {
-		logger.info("aaa");
+		for(int i = 0; i < 100; i++) {
+			logger.info("aaa");
+			logger.error("bbb");
+			logger.debug("ccc");
+		}
 		
-		logger.error("bbb");
-		logger.debug("ccc");
 	}
 
 }
