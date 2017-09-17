@@ -1,6 +1,6 @@
 package com.myself.controllers.system;
 
-import com.myself.acceptors.BusinessResult;
+import com.myself.acceptors.CmdResult;
 import com.myself.controllers.AbstractSystemController;
 import com.myself.exception.CustomException;
 
@@ -16,7 +16,7 @@ public class CacheController extends AbstractSystemController<Void> {
 
     @RequestMapping(value = "refreshAllCache" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult refreshAllCache() throws CustomException {
+    public CmdResult refreshAllCache() throws CustomException {
         refreshMenuCache();
         refreshRoleCache();
         refreshOrgCache();
@@ -25,21 +25,21 @@ public class CacheController extends AbstractSystemController<Void> {
 
     @RequestMapping(value = "refreshMenuCache" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult refreshMenuCache() throws CustomException {
+    public CmdResult refreshMenuCache() throws CustomException {
         getMenuAcceptor().refreshCache();
         return null;
     }
     
     @RequestMapping(value = "refreshRoleCache" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult refreshRoleCache() throws CustomException {
+    public CmdResult refreshRoleCache() throws CustomException {
         getRoleAcceptor().refreshCache();
         return null;
     }
     
     @RequestMapping(value = "refreshOrgCache" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult refreshOrgCache() throws CustomException {
+    public CmdResult refreshOrgCache() throws CustomException {
         getOrgAcceptor().refreshCache();
         return null;
     }

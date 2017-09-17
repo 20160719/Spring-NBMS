@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myself.acceptors.BusinessResult;
+import com.myself.acceptors.CmdResult;
 import com.myself.busiobj.system.SystemObj;
 import com.myself.controllers.AbstractSystemController;
 import com.myself.dto.system.SystemDto;
@@ -21,29 +21,32 @@ public class PermissionController extends AbstractSystemController<Permission> {
 
     @RequestMapping(value = "create" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult create(@RequestParam("targetJson") String targetJson) throws CustomException {
+    public CmdResult create(@RequestParam("targetJson") String targetJson) throws CustomException {
         SystemDto sysDto = getSystemDto();
         sysDto.setTargetJson(targetJson);
         SystemObj<Permission> sysObj = beforeAction(sysDto);
-        return getPermsAcceptor().creates(sysObj);
+//        return getPermsAcceptor().creates(sysObj);
+        return null;
     }
 
     @RequestMapping(value = "modify" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult modify(@RequestParam("targetJson") String targetJson) throws CustomException {
+    public CmdResult modify(@RequestParam("targetJson") String targetJson) throws CustomException {
         SystemDto sysDto = getSystemDto();
         sysDto.setTargetJson(targetJson);
         SystemObj<Permission> sysObj = beforeAction(sysDto);
-        return getPermsAcceptor().modifies(sysObj);
+//        return getPermsAcceptor().modifies(sysObj);
+        return null;
     }
 
     @RequestMapping(value = "delete" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult delete(@RequestParam("targetJson") String targetJson) throws CustomException {
+    public CmdResult delete(@RequestParam("targetJson") String targetJson) throws CustomException {
         SystemDto sysDto = getSystemDto();
         sysDto.setTargetJson(targetJson);
         SystemObj<Permission> sysObj = beforeAction(sysDto);
-        return getPermsAcceptor().deletes(sysObj);
+//        return getPermsAcceptor().deletes(sysObj);
+        return null;
     }
 
     @RequestMapping(value = "query" + SUFFIX, method = RequestMethod.POST)

@@ -3,6 +3,10 @@ package com.myself.services;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.Tree;
 
@@ -17,7 +21,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return Integer TODO
 	 */
-	public abstract Integer createHiss(List<T> list, Operation operation) throws Exception;
+	public abstract Integer createHiss(List<T> list, Operation operation) throws DataAccessException;
 
 	/**
 	 * 閿熸枻鎷烽敓鏂ゆ嫹
@@ -27,7 +31,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return Integer TODO
 	 */
-	public abstract Integer creates(List<T> list) throws Exception;
+	public abstract Integer creates(List<T> list) throws DataAccessException;
 
 	/**
 	 * 鍒犻敓鏂ゆ嫹
@@ -37,7 +41,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return Integer TODO
 	 */
-	public abstract Integer deletes(List<T> list) throws Exception;
+	public abstract Integer deletes(List<T> list) throws DataAccessException;
 
 	/**
 	 * 閿熺潾闈╂嫹
@@ -47,7 +51,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return Integer TODO
 	 */
-	public abstract Integer modifies(List<T> list) throws Exception;
+	public abstract Integer modifies(List<T> list) throws DataAccessException;
 	
 	/**
 	 * 閿熸枻鎷疯閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷峰綍
@@ -56,7 +60,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return T TODO
 	 */
-	public abstract T load(T obj) throws Exception;
+	public abstract T load(T obj) throws DataAccessException;
 
 	/**
 	 * 閿熸枻鎷疯閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷峰綍
@@ -66,7 +70,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return List<T> TODO
 	 */
-	public abstract List<T> queries(T obj) throws Exception;
+	public abstract List<T> queries(T obj) throws DataAccessException;
 
 	/**
 	 * 閿熸枻鎷疯閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷峰綍
@@ -76,7 +80,7 @@ public abstract interface IBaseService<T> {
 	 * @throws Exception
 	 * @return List<T> TODO
 	 */
-	public abstract List<T> query(Map<String, Object> map) throws Exception;
+	public abstract List<T> query(Map<String, Object> map) throws DataAccessException;
 	
 	/**
 	 * 
@@ -85,6 +89,6 @@ public abstract interface IBaseService<T> {
 	 * @return List<BaseTree>
 	 * TODO
 	 */
-	public abstract List<Tree> queryTrees() throws Exception;
+	public abstract List<Tree> queryTrees() throws DataAccessException;
 	
 }

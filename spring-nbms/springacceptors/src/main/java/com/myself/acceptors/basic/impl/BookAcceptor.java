@@ -6,10 +6,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myself.acceptors.AbstractBasicAcceptor;
-import com.myself.acceptors.BusinessResult;
 import com.myself.acceptors.basic.IBookAcceptor;
 import com.myself.busiobj.AbsBusinessObj;
-import com.myself.exception.CustomException;
+import com.myself.exception.SystemException;
 import com.myself.persistences.entity.basic.Book;
 
 @Service(value = "bookAcceptor")
@@ -17,24 +16,24 @@ import com.myself.persistences.entity.basic.Book;
 public class BookAcceptor extends AbstractBasicAcceptor<Book> implements IBookAcceptor {
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public BusinessResult creates(AbsBusinessObj<Book> absBusinessObj) throws CustomException {
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
+	public int creates(AbsBusinessObj<Book> absBusinessObj) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public BusinessResult modifies(AbsBusinessObj<Book> absBusinessObj) throws CustomException {
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
+	public int modifies(AbsBusinessObj<Book> absBusinessObj) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public BusinessResult deletes(AbsBusinessObj<Book> absBusinessObj) throws CustomException {
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
+	public int deletes(AbsBusinessObj<Book> absBusinessObj) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 }

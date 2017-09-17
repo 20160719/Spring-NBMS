@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.util.Assert;
+
 import com.myself.common.utils.CommonUtils;
 import com.myself.exception.CustomException;
 import com.myself.persistences.entity.Tree;
@@ -13,8 +16,6 @@ import com.myself.services.system.IOrgService;
 import com.myself.services.system.IPermsService;
 import com.myself.services.system.IRoleService;
 import com.myself.services.system.IUserService;
-
-import org.springframework.util.Assert;
 
 public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 
@@ -44,25 +45,15 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 	 * @return List<T>
 	 * TODO
 	 */
-	protected List<T> query(IListQuery<T> listQuery) throws CustomException {
-		try {
-			return listQuery.queries();
-		} catch (Exception e) {
-			throw CustomException.getCustomException(e.getMessage());
-		}
+	protected List<T> query(IListQuery<T> listQuery) throws DataAccessException {
+		return listQuery.queries();
 	}
 
-	protected BusinessResult query(IStringQuery stringQuery) throws CustomException {
-		BusinessResult result = getSuccessBusiness();
-		try {
-			result.setStrResult(stringQuery.query());
-			return result;
-		} catch (Exception e) {
-			throw CustomException.getCustomException(e.getMessage());
-		}
+	protected CmdResult query(IStringQuery stringQuery) throws DataAccessException {
+		return getCmdResult().setStrResult(stringQuery.query());
 	}
 
-	public List<Tree> queryAllResources() throws CustomException {
+	public List<Tree> queryAllResources() throws DataAccessException {
 		return null;
 	}
 	
@@ -72,7 +63,7 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 	 * @return
 	 * @throws CustomException
 	 */
-	protected List<Tree> transTrees(Tree tree) throws CustomException {
+	protected List<Tree> transTrees(Tree tree) throws Exception {
 		List<Tree> treeList = queryAllResources();
 		Assert.notEmpty(treeList, "the list must not be empty");
 		treeList = CommonUtils.setChildrenListForTree(treeList);

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
 
 import com.myself.persistences.entity.Operation;
 
@@ -20,7 +21,7 @@ public abstract interface IBaseMapper<T> {
 	 * @return Integer TODO
 	 */
 	public abstract Integer creates(@Param("list") List<T> list)
-			throws Exception;
+			throws DataAccessException;
 
 	/**
 	 * ������ʷ
@@ -30,7 +31,7 @@ public abstract interface IBaseMapper<T> {
 	 * @throws Exception
 	 * @return Integer TODO
 	 */
-	public abstract Integer createHiss(@Param("list") List<T> list,  @Param("operation") Operation operation) throws Exception;
+	public abstract Integer createHiss(@Param("list") List<T> list,  @Param("operation") Operation operation) throws DataAccessException;
 
 	/**
 	 * ɾ��
@@ -41,7 +42,7 @@ public abstract interface IBaseMapper<T> {
 	 * @return Integer TODO
 	 */
 	public abstract Integer deletes(@Param("list") List<T> list)
-			throws Exception;
+			throws DataAccessException;
 
 	/**
 	 * �޸�
@@ -52,7 +53,7 @@ public abstract interface IBaseMapper<T> {
 	 * @return Integer TODO
 	 */
 	public abstract Integer modifies(@Param("list") List<T> list)
-			throws Exception;
+			throws DataAccessException;
 
 	/**
 	 * record
@@ -60,7 +61,7 @@ public abstract interface IBaseMapper<T> {
 	 * @return
 	 * @throws Exception
      */
-	public abstract T load(@Param("record") T record) throws Exception;
+	public abstract T load(@Param("record") T record) throws DataAccessException;
 
 	/**
 	 * ��ѯ������¼
@@ -70,7 +71,7 @@ public abstract interface IBaseMapper<T> {
 	 * @throws Exception
 	 * @return List<T> TODO
 	 */
-	public abstract List<T> queries(@Param("record") T record) throws Exception;
+	public abstract List<T> queries(@Param("record") T record) throws DataAccessException;
 
 	/**
 	 * ��ѯ������¼
@@ -81,6 +82,6 @@ public abstract interface IBaseMapper<T> {
 	 * @return List<T> TODO
 	 */
 	public abstract List<T> query(@Param("map") Map<String, Object> map)
-			throws Exception;
-
+			throws DataAccessException;
+	
 }

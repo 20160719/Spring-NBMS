@@ -1,6 +1,6 @@
 package com.myself.controllers.system;
 
-import com.myself.acceptors.BusinessResult;
+import com.myself.acceptors.CmdResult;
 import com.myself.controllers.AbstractSystemController;
 import com.myself.dto.system.SystemDto;
 import com.myself.exception.CustomException;
@@ -17,25 +17,25 @@ public class BookTypeController extends AbstractSystemController<Tree> {
 
     @RequestMapping(value = "create" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult create(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
+    public CmdResult create(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
         return doController(systemDto, beforeController, (absBusObj) -> getBookTypeAcceptor().creates(absBusObj));
     }
 
     @RequestMapping(value = "modify" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult modify(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
+    public CmdResult modify(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
         return doController(systemDto, beforeController, (absBusObj) -> getBookTypeAcceptor().modifies(absBusObj));
     }
 
     @RequestMapping(value = "delete" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public BusinessResult delete(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
+    public CmdResult delete(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
         return doController(systemDto, beforeController, (absBusObj) -> getBookTypeAcceptor().deletes(absBusObj));
     }
 
     @RequestMapping(value = "query" + SUFFIX, method = RequestMethod.POST)
     @ResponseBody
-    public List<Tree> query(@ModelAttribute("systemDto") SystemDto systemDto) throws CustomException {
+    public List<Tree> query(@ModelAttribute("systemDto") SystemDto systemDto) throws Exception {
         Tree tree = systemDto.getTree();
         return getBookTypeAcceptor().queryTrees(tree);
     }

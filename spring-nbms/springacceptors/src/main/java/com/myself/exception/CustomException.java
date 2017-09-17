@@ -4,30 +4,29 @@ public class CustomException extends Exception {
 	
 	private static final long serialVersionUID = -5146289906926181443L;
 	
-	private String retCode = "";
-	private String retMesg = "";
+	private String code = "";
 	
-	private static String DEFAULT_CODE = "";
-
-	public CustomException(String retCode, String retMesg) {
-		super(retMesg);
-		this.retCode = retCode;
-	}
+	private String msg = "";
 	
-	public static CustomException getCustomException(String retMesg) {
-		return new CustomException(DEFAULT_CODE, retMesg);
-	}
-	
-	public static CustomException getCustomException(String retCode, String retMesg) {
-		return new CustomException(retCode, retMesg);
+	public CustomException(String msg) {
+		super(msg);
 	}
 
-	public String getRetCode() {
-		return retCode;
+	public CustomException(String code, String msg) {
+		super(msg);
+		this.code = code;
 	}
 
-	public String getRetMesg() {
-		return retMesg;
+	public String getCode() {
+		return code;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public String getMsg() {
+		return msg;
 	}
 
 }

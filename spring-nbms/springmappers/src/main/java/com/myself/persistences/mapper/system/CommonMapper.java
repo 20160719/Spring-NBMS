@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.dao.DataAccessException;
 
 @Mapper
 public abstract interface CommonMapper {
@@ -17,7 +18,7 @@ public abstract interface CommonMapper {
 	 * @return long
 	 * TODO
 	 */
-	public abstract String querySeqByName(@Param("seqName") String seqName) throws Exception;
+	public abstract String querySeqByName(@Param("seqName") String seqName) throws DataAccessException;
 	
 	/**
 	 *获取系统时间
@@ -26,7 +27,7 @@ public abstract interface CommonMapper {
 	 * @return Date
 	 * TODO
 	 */
-	public abstract Date queryDateTime() throws Exception;
+	public abstract Date queryDateTime() throws DataAccessException;
 	
 	/**
 	 * 获取系统时间戳
@@ -35,7 +36,7 @@ public abstract interface CommonMapper {
 	 * @return Timestamp
 	 * TODO
 	 */
-	public abstract Timestamp queryTimestamp() throws Exception;
+	public abstract Timestamp queryTimestamp() throws DataAccessException;
 	
 
 	

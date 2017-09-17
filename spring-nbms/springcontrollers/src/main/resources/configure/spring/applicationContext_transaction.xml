@@ -10,25 +10,24 @@
         <aop:aspectj-autoproxy proxy-target-class="true" />
 
         <!-- TransactionManager -->
-        <bean id="transactionManager"
-                class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-                <property name="dataSource" ref="nbmsDataSourceProxy" />
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        	<property name="dataSource" ref="nbmsDataSourceProxy" />
         </bean>
 
         <!-- 配置注解事务  -->
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"></tx:annotation-driven>
+    	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
         <!-- 业务层事务注解 -->
         <!-- <tx:advice id="txAcceptorAdvice" transaction-manager="transactionManager">
-                <tx:attributes>
-                        <tx:method name="modifyAcceptor" propagation="REQUIRED" rollback-for="Exception"></tx:method>
-                        <tx:method name="queryAcceptor" read-only="true"></tx:method>
-                </tx:attributes>
+            <tx:attributes>
+                 <tx:method name="businessAcceptor" propagation="REQUIRED" rollback-for="Exception"></tx:method>
+                 <tx:method name="queryAcceptor" read-only="true"></tx:method>
+            </tx:attributes>
         </tx:advice>
 
         <aop:config>
                 <aop:pointcut id="acceptorPointCut" expression="execution(* com.busi.acceptor.*.impl.*.*(..))"/>
-                <aop:pointcut id="acceptorPointCut" expression="execution(* com.test.business.ModifyAcceptor.modifyAcceptor(..))"/>
+                <aop:pointcut id="acceptorPointCut" expression="execution(* com.myself.acceptors.*.impl.businessAcceptor(..))"/>
                 <aop:advisor advice-ref="txAcceptorAdvice" pointcut-ref="acceptorPointCut"/>
         </aop:config> -->
 

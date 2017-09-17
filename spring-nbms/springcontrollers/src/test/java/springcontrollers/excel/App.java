@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -35,7 +34,7 @@ public class App {
 
 	private static void test02() {
 		List<Person> list = getList();
-		List<SplitList<Person>> splitList = getSplitList(list, list.size());
+		List<SplitList<Person>> splitList = getSplitList(list, 0);
 		ExcelUtils.createXlsExcel(splitList);
 	}
 
@@ -44,8 +43,8 @@ public class App {
 	}
 
 	private static List<Person> getList() {
-		List<Person> list = new ArrayList<Person>(65535);
-		int size = 65535;
+		int size = 60000;
+		List<Person> list = new ArrayList<Person>(size);
 		Person person = null;
 		for (int i = 0; i < size; i++) {
 			person = new Person();
@@ -106,46 +105,45 @@ class ExcelUtils {
 	public static void createXlsExcel(List<SplitList<Person>> splitList) {
 		try {
 //			final Workbook workBook = new HSSFWorkbook();
-			File file = new File("C:\\Users\\Administrator\\Desktop\\java\\person.xlsx");
-			file.mkdir();
-			FileOutputStream out = new FileOutputStream(file);
-			 final Workbook workBook = new XSSFWorkbook();
-
+			final Workbook workBook = new XSSFWorkbook();
 			createExcel(workBook, splitList);
+			
+			File file = new File("C:\\Users\\zhanghong\\Desktop\\person.xlsx");
+			FileOutputStream out = new FileOutputStream(file);
 
 			workBook.write(out);
+			workBook.close();
 			out.flush();
 			out.close();
-			workBook.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static void createExcel(Workbook workBook, List<SplitList<Person>> splitList) throws Exception {
-		long sTime = new Date().getTime();
+		long sTime = System.currentTimeMillis();
 		Sheet sheet = workBook.createSheet("sheet");
 	
-		splitList.stream().map(sp -> {
-			try {
-				return CompletableFuture.runAsync(() -> {
-					sp.list.stream().forEach(p -> {
-						createRow(sheet, p);
-					});
-				});
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}).collect(Collectors.toList()).stream().forEach(f -> {
-			try {
-				f.get();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//		splitList.stream().map(sp -> {
+//			return CompletableFuture.runAsync(() -> {
+//				sp.list.stream().forEach(p -> {
+//					createRow(sheet, p);
+//				});
+//			});
+//		}).forEach(f -> {
+//			try {
+//				f.get();
+//				System.out.println("aaas");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		});
+		
+		splitList.stream().forEach(sp -> {
+			sp.list.stream().forEach(p -> createRow(sheet, p));
 		});
 
-		long eTime = new Date().getTime();
+		long eTime = System.currentTimeMillis();
 		System.out.println("total time: " + (eTime - sTime));
 	}
 

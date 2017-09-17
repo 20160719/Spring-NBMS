@@ -1,5 +1,7 @@
 package com.myself.persistences.mapper;
 
+import org.springframework.dao.DataAccessException;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -34,5 +36,10 @@ public class AppTest
     public void testApp()
     {
         assertTrue( true );
+    }
+    
+    
+    public void a() throws DataAccessException {
+    	
     }
 }

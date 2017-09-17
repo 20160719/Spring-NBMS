@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.Tree;
@@ -20,17 +21,17 @@ public abstract class AbstractService<T> implements IBaseService<T> {
 	private CommonMapper commonMapper;
 
 	@Override
-	public Integer createHiss(List<T> list, Operation operation) throws Exception {
+	public Integer createHiss(List<T> list, Operation operation) throws DataAccessException {
 		return null;
 	}
 
 	@Override
-	public List<Tree> queryTrees() throws Exception {
+	public List<Tree> queryTrees() throws DataAccessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public synchronized String querySeqByName(String seqName) throws Exception {
+	public synchronized String querySeqByName(String seqName) throws DataAccessException {
 		return getCommonMapper().querySeqByName(seqName);
 	}
 
