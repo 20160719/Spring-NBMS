@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -170,7 +173,7 @@ public class LamTest {
 		return map;
 	}
 	
-	@Test
+	//@Test
 	public void test04() {
 		List<People> list = new ArrayList<People>(10);
 		IntStream.range(0, 10).forEach(i -> {
@@ -188,7 +191,21 @@ public class LamTest {
 		for(Map.Entry<String, Map<Integer, List<People>>> m : mp2.entrySet()) {
 			System.out.println(m.getKey() + " " + m.getValue());
 		}
-		
+	}
+	
+	@Test
+	public void test05() {
+		String str = "aaa bbb ccc ddd";
+		//Stream<Character> s = IntStream.range(0, str.length()).mapToObj(str::charAt);
+		//countWords(s.parallel());
+		Spliterator<Character> spliterator = new CounterSpliter(str);
+		Stream<Character> s = StreamSupport.stream(spliterator, true);
+		countWords(s);
+	}
+	
+	private static void countWords(Stream<Character> s) {
+		Counter counter = s.reduce(new Counter(0, true), Counter::accumulate, Counter::combine);
+		System.out.println("count:" +counter.getCounter());
 	}
 	
 	
@@ -248,5 +265,78 @@ class People {
 	}
 	
 }
+
+class Counter {
+	
+	private final int counter;
+	private final boolean lastSpace;
+	
+	public Counter(int counter, boolean lastSpace) {
+		this.counter = counter;
+		this.lastSpace = lastSpace;
+	}
+	
+	public Counter accumulate(Character c) {
+		if(Character.isWhitespace(c)) {
+			return lastSpace ? this : new Counter(this.counter, true);
+		} else {
+			return lastSpace ? new Counter(this.counter + 1,  false) : this;
+		}
+	}
+	
+	public Counter combine(Counter counter) {
+		return new Counter(this.counter + counter.counter, counter.lastSpace);
+	}
+	
+	public int getCounter() {
+		return this.counter;
+	}
+	
+}
+
+class CounterSpliter implements Spliterator<Character> { 
+	
+	private final String string;
+	private int currentChar = 0;
+	
+	public CounterSpliter(String string) {
+		this.string = string;
+	}
+
+	@Override
+	public boolean tryAdvance(Consumer<? super Character> action) {
+		action.accept(string.charAt(currentChar++));
+		return currentChar < string.length();
+	}
+
+	@Override
+	public Spliterator<Character> trySplit() {
+		int currentSize = string.length() - currentChar;
+		if(currentSize < 10) return null;
+		for(int i = currentSize / 2 + currentChar; i < string.length(); i++) {
+			if(Character.isWhitespace(string.charAt(i))) {
+				Spliterator<Character> spliterator = new CounterSpliter(string.substring(currentChar, i));
+				currentChar = i;
+				return spliterator;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public long estimateSize() {
+		return string.length() - currentChar;
+	}
+
+	@Override
+	public int characteristics() {
+		return ORDERED + SIZED + SUBSIZED + NONNULL + IMMUTABLE;
+	}
+	
+}
+
+
+
+
 
 
