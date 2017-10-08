@@ -63,7 +63,7 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 	 * @return
 	 * @throws CustomException
 	 */
-	protected List<Tree> transTrees(Tree tree) throws Exception {
+	protected List<Tree> transTrees(Tree tree) throws CustomException {
 		List<Tree> treeList = queryAllResources();
 		Assert.notEmpty(treeList, "the list must not be empty");
 		treeList = CommonUtils.setChildrenListForTree(treeList);

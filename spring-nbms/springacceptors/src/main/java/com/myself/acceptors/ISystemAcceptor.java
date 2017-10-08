@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ISystemAcceptor<T> extends IAbstractAcceptor<T> {
 
-    public abstract List<Tree> queryTrees(Tree tree) throws Exception;
+    public abstract List<Tree> queryTrees(Tree tree) throws CustomException;
 
     public abstract List<Tree> queryTrees() throws CustomException;
 

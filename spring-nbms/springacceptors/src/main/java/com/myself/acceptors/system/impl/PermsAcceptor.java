@@ -51,19 +51,19 @@ public class PermsAcceptor extends AbstractSystemAcceptor<Permission> implements
 
 	@Override
 	@Cacheable("allPermissionResources")
-	public List<Permission> queryPermissions() {
-		return query(() -> getPermsService().queryPermissions());
+	public List<Permission> queryPermissions() throws CustomException {
+		return getPermsService().queryPermissions();
 	}
 
 	@Override
-	public Permission queryPermission(Permission permission) {
+	public Permission queryPermission(Permission permission) throws CustomException{
 		List<Permission> permsList = queryPermissions();
 		String permId = permission.getPermId();
 		return permsList.stream().filter(p -> permId.equals(p.getPermId())).collect(Collectors.toList()).get(0);
 	}
 
 	@Override
-	public List<Permission> queryPermsByRoleIds(List<String> roleIds) {
+	public List<Permission> queryPermsByRoleIds(List<String> roleIds) throws CustomException {
 		List<Permission> permsList = queryPermissions();
 		return CommonUtils.filterPermissionListById(permsList, roleIds);
 	}

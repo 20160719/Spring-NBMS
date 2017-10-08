@@ -1,5 +1,9 @@
 package com.myself.redis;
 
+import java.lang.reflect.Method;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -9,11 +13,11 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.lang.reflect.Method;
-
 @Configuration
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
+	
+	private static final Logger logger = LoggerFactory.getLogger(RedisCacheConfig.class);
 
     private volatile JedisConnectionFactory jedisConnectionFactory;
 
@@ -31,6 +35,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                 for (Object obj : objects) {
                     sb.append(obj.toString());
                 }
+                logger.info("Object: " + o.toString() + ", Method: " + method.toString() + ", sb: " + sb.toString());
                 return sb.toString();
             }
         };
@@ -42,6 +47,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 
     public void setJedisConnectionFactory(JedisConnectionFactory jedisConnectionFactory) {
         this.jedisConnectionFactory = jedisConnectionFactory;
+        this.jedisConnectionFactory.afterPropertiesSet();
     }
 
     public RedisTemplate<String, Object> getRedisTemplate() {

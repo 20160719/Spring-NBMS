@@ -25,10 +25,8 @@ public class MenuServiceImpl extends AbstractSystemService<Tree> implements
 	}
 
 	@Override
-	//@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public Integer modifies(List<Tree> list) throws DataAccessException {
 		int count = getMenuMapper().modifies(list);
-		//int t = 1 / 0;
 		return count;
 	}
 

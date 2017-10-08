@@ -91,7 +91,7 @@
 		
 	<import resource="applicationContext_transaction.xml"/>
 
-	<!--<import resource="applicationContext_redis.xml"/>-->
+	<import resource="applicationContext_redis.xml"/>
 
 	<import resource="applicationContext_shiro.xml"/>
 	

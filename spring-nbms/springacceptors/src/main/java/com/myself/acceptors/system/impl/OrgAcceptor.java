@@ -56,7 +56,7 @@ public class OrgAcceptor extends AbstractSystemAcceptor<Tree> implements IOrgAcc
 	}
 
 	@Override
-	public List<Tree> queryTrees(Tree tree) throws Exception {
+	public List<Tree> queryTrees(Tree tree) throws CustomException {
 		return transTrees(tree);
 	}
 

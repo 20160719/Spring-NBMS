@@ -45,7 +45,7 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	public int modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> {
 			int count = getMenuService().modifies(list);
-			int i = 1 / 0;
+//			int i = 1 / 0;
 			return count;
 		}, Operation.OP_MODIFY);
 	}
@@ -58,13 +58,17 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
-	@Cacheable("allMenuResources")
 	public List<Tree> queryAllResources() {
-		return query(() -> getMenuService().queryTrees());
+		try {
+			return queryTrees();
+		} catch (CustomException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
-	public List<Tree> queryTrees(Tree tree) throws Exception {
+	public List<Tree> queryTrees(Tree tree) throws CustomException {
 		return transTrees(tree);
 	}
 
@@ -79,8 +83,9 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
+	@Cacheable("allMenuResources")
 	public List<Tree> queryTrees() throws CustomException {
-		return queryAllResources();
+		return getMenuService().queryTrees();
 	}
 
 	@Override

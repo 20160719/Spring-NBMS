@@ -1,5 +1,5 @@
 <%
-	String basePath = "http://localhost:8090";
+	String basePath = "http://localhost:8080";
 	String resoucesUrl = basePath +"/resources/js";
 	String path = request.getContextPath();
 %>

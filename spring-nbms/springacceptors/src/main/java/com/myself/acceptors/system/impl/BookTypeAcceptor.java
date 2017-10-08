@@ -56,7 +56,7 @@ public class BookTypeAcceptor extends AbstractSystemAcceptor<Tree> implements IB
 	}
 
 	@Override
-	public List<Tree> queryTrees(Tree tree) throws Exception {
+	public List<Tree> queryTrees(Tree tree) throws CustomException {
 		return transTrees(tree);
 	}
 
