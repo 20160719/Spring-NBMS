@@ -49,11 +49,17 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 		return listQuery.queries();
 	}
 
-	protected CmdResult query(IStringQuery stringQuery) throws DataAccessException {
-		return getCmdResult().setStrResult(stringQuery.query());
+	protected CmdResult query(IStringQuery stringQuery) throws CustomException {
+		String result = null;
+		try {
+			result = stringQuery.query();
+		} catch (DataAccessException e) {
+			throw new CustomException(e.getMessage());
+		}
+		return getCmdResult().setStrResult(result);
 	}
 
-	public List<Tree> queryAllResources() throws DataAccessException {
+	public List<Tree> queryAllResources() throws CustomException {
 		return null;
 	}
 	

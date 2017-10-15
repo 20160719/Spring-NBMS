@@ -139,7 +139,7 @@
 					leaf: true
 				},{
 					treeId: '4',
-					text: 'DD Spencer',
+					text: 'EE Spencer',
 					leaf: true
 				}]
 		};

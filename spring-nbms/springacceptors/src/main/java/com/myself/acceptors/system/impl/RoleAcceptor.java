@@ -77,7 +77,7 @@ public class RoleAcceptor extends AbstractSystemAcceptor<Tree> implements IRoleA
 	}
 
 	@Override
-	public CmdResult querySeq() {
+	public CmdResult querySeq() throws CustomException {
 		return query(() -> getRoleService().queryRoleSeq());
 	}
 

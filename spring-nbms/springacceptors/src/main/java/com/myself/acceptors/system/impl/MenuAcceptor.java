@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,13 +59,12 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
-	public List<Tree> queryAllResources() {
+	public List<Tree> queryAllResources() throws CustomException {
 		try {
 			return queryTrees();
-		} catch (CustomException e) {
-			e.printStackTrace();
+		} catch (DataAccessException e) {
+			throw new CustomException(e.getMessage());
 		}
-		return null;
 	}
 
 	@Override
@@ -72,19 +72,20 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 		return transTrees(tree);
 	}
 
+
 	@Override
-	public CmdResult querySeq() {
+	public CmdResult querySeq() throws CustomException {
 		return query(() -> getMenuService().queryMenuSeq());
 	}
 
 	@Override
-	public void refreshCache() {
+	public void refreshCache() throws CustomException {
 		queryAllResources();
 	}
 
 	@Override
 	@Cacheable("allMenuResources")
-	public List<Tree> queryTrees() throws CustomException {
+	public List<Tree> queryTrees() throws DataAccessException {
 		return getMenuService().queryTrees();
 	}
 
