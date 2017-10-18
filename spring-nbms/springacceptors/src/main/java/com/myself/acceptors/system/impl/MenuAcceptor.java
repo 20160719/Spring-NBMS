@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -34,14 +32,12 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
-	@CacheEvict(value = { "allMenuResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getMenuService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
-	@CacheEvict(value = { "allMenuResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> {
@@ -52,7 +48,6 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
-	@CacheEvict(value = { "allMenuResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getMenuService().deletes(list), Operation.OP_DELETE);
@@ -84,8 +79,12 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
+<<<<<<< b33ba8c1b659b3ae89a08230535ed3984c2ecc41
 	@Cacheable("allMenuResources")
 	public List<Tree> queryTrees() throws DataAccessException {
+=======
+	public List<Tree> queryTrees() throws CustomException {
+>>>>>>> c99431d6b80e207b7d313d5201a2b327c49d2e87
 		return getMenuService().queryTrees();
 	}
 

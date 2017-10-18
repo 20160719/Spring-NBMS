@@ -3,8 +3,6 @@ package com.myself.acceptors.system.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,28 +27,24 @@ public class PermsAcceptor extends AbstractSystemAcceptor<Permission> implements
 	}
 
 	@Override
-	@CacheEvict(value = { "allPermissionResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
-	@CacheEvict(value = { "allPermissionResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int modifies(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
-	@CacheEvict(value = { "allPermissionResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int deletes(AbsBusinessObj<Permission> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getPermsService().deletes(list), Operation.OP_DELETE);
 	}
 
 	@Override
-	@Cacheable("allPermissionResources")
 	public List<Permission> queryPermissions() throws CustomException {
 		return getPermsService().queryPermissions();
 	}

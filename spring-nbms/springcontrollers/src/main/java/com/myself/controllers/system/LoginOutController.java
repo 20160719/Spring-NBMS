@@ -62,8 +62,8 @@ public class LoginOutController extends AbstractSystemController<User> {
 			//鑾峰彇menuIdList
 			List<String> menuIdList = SystemUtils.getMenuIds(permsSet);
 			//鑾峰彇鑿滃崟闆嗗悎menuList
-			List<Tree> menuList =  getMenuAcceptor().queryTrees();
 			//杩囨护menuList menuId瀛樺湪menuIdList涓殑璁板綍
+			List<Tree> menuList =  getMenuAcceptor().queryTrees();
 			menuList = CommonUtils.filterTreeListById(menuList, menuIdList);
 			
 			List<String>filterList = com.myself.common.utils.CollectionUtils.getList();

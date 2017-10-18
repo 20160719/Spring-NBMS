@@ -3,6 +3,7 @@ package com.myself.services.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class UserServiceImpl extends AbstractSystemService<User> implements IUse
 		return getUserMapper().modifies(list);
 	}
 
+	@Cacheable("users")
 	public User load(User obj) throws DataAccessException {
 		return getUserMapper().load(obj);
 	}

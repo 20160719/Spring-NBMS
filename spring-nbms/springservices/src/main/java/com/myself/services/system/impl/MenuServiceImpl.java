@@ -3,6 +3,8 @@ package com.myself.services.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +17,19 @@ public class MenuServiceImpl extends AbstractSystemService<Tree> implements
 		IMenuService {
 
 	@Override
+	@CacheEvict(cacheNames = "menus")
 	public Integer creates(List<Tree> list) throws DataAccessException {
 		return getMenuMapper().creates(list);
 	}
 
 	@Override
+	@CacheEvict(cacheNames = "menus")
 	public Integer deletes(List<Tree> list) throws DataAccessException {
 		return getMenuMapper().deletes(list);
 	}
 
 	@Override
+	@CacheEvict(cacheNames = "menus")
 	public Integer modifies(List<Tree> list) throws DataAccessException {
 		int count = getMenuMapper().modifies(list);
 		return count;
@@ -49,6 +54,7 @@ public class MenuServiceImpl extends AbstractSystemService<Tree> implements
 	}
 
 	@Override
+	@Cacheable(cacheNames="menus", key="'queryTrees'")
 	public List<Tree> queryTrees() throws DataAccessException {
 		return getMenuMapper().queryTrees();
 	}
