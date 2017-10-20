@@ -2,8 +2,6 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,30 +27,26 @@ public class OrgAcceptor extends AbstractSystemAcceptor<Tree> implements IOrgAcc
 	}
 
 	@Override
-	@CacheEvict(value = { "allOrgResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getOrgService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
-	@CacheEvict(value = { "allOrgResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getOrgService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
-	@CacheEvict(value = { "allOrgResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getOrgService().deletes(list), Operation.OP_DELETE);
 	}
 
 	@Override
-	@Cacheable("allOrgResources")
-	public List<Tree> queryAllResources() {
-		return query(() -> getOrgService().queryTrees());
+	public List<Tree> queryAllResources() throws CustomException {
+		return queryTrees();
 	}
 
 	@Override
@@ -61,19 +55,19 @@ public class OrgAcceptor extends AbstractSystemAcceptor<Tree> implements IOrgAcc
 	}
 
 	@Override
-	public List<Tree> queryTrees() {
-		return queryAllResources();
+	public List<Tree> queryTrees() throws CustomException{
+		return query(() -> getOrgService().queryTrees());
 	}
 
 	@Override
-	public CmdResult querySeq() {
+	public CmdResult querySeq() throws CustomException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void refreshCache() {
-		queryAllResources();
+	public void refreshCache() throws CustomException{
+		queryTrees();
 	}
 
 }

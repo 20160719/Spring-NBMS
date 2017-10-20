@@ -54,7 +54,7 @@ public class MenuServiceImpl extends AbstractSystemService<Tree> implements
 	}
 
 	@Override
-	@Cacheable(cacheNames="menus", key="'queryTrees'")
+	@Cacheable(cacheNames="menus", key="'allMenus'")
 	public List<Tree> queryTrees() throws DataAccessException {
 		return getMenuMapper().queryTrees();
 	}

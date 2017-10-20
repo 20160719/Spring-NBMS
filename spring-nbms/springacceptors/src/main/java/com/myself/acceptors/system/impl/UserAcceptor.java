@@ -2,7 +2,6 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,6 @@ public class UserAcceptor extends AbstractSystemAcceptor<User> implements IUserA
 	}
 
 	@Override
-	@Cacheable("users")
 	public List<User> queries(User user) throws CustomException {
 		return query(() -> getUserService().queries(user));
 	}

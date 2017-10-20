@@ -3,6 +3,7 @@ package com.myself.services.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,7 @@ public class OrgServiceImpl extends AbstractSystemService<Tree> implements
 	}
 
 	@Override
+	@Cacheable(cacheNames="orgs", key="'allOrgs'")
 	public List<Tree> queryTrees() throws DataAccessException {
 		return getOrgMapper().queryTrees();
 	}

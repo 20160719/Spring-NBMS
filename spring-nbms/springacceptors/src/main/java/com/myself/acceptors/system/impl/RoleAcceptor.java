@@ -2,8 +2,6 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,41 +27,37 @@ public class RoleAcceptor extends AbstractSystemAcceptor<Tree> implements IRoleA
 	}
 
 	@Override
-	@CacheEvict(value = { "allRoleResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
-	@CacheEvict(value = { "allRoleResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
-	@CacheEvict(value = { "allRoleResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getRoleService().deletes(list), Operation.OP_DELETE);
 	}
 
 	@Override
-	@Cacheable("allRoleResources")
-	public List<Tree> queryAllResources() {
-		return query(() -> getRoleService().queryTrees());
+	public List<Tree> queryAllResources() throws CustomException {
+		return queryTrees();
 	}
 
 	@Override
-	public List<Tree> queryRolesByRoleIds(List<String> roleIds) {
+	public List<Tree> queryRolesByRoleIds(List<String> roleIds) throws CustomException {
 		List<Tree> roleList = queryAllResources();
 		return CommonUtils.filterTreeListById(roleList, roleIds);
 	}
 
 	@Override
-	public void refreshCache() {
-		queryAllResources();
+	public void refreshCache() throws CustomException {
+		queryTrees();
 	}
 
 	@Override
@@ -72,8 +66,8 @@ public class RoleAcceptor extends AbstractSystemAcceptor<Tree> implements IRoleA
 	}
 
 	@Override
-	public List<Tree> queryTrees() {
-		return queryAllResources();
+	public List<Tree> queryTrees() throws CustomException {
+		return query(() -> getRoleService().queryTrees());
 	}
 
 	@Override

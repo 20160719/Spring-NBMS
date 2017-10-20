@@ -46,7 +46,7 @@ public class PermsServiceImpl extends AbstractSystemService<Permission> implemen
 	}
 
 	@Override
-	@Cacheable(cacheNames="perms", key="'queryPermissions'")
+	@Cacheable(cacheNames="perms", key="'allPermissions'")
 	public List<Permission> queryPermissions() throws DataAccessException {
 		return getPermsMapper().queryPermissions();
 	}

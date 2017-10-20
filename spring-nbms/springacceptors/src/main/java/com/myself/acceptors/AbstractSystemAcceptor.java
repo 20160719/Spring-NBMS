@@ -45,18 +45,20 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 	 * @return List<T>
 	 * TODO
 	 */
-	protected List<T> query(IListQuery<T> listQuery) throws DataAccessException {
-		return listQuery.queries();
-	}
-
-	protected CmdResult query(IStringQuery stringQuery) throws CustomException {
-		String result = null;
+	protected List<T> query(IListQuery<T> listQuery) throws CustomException {
 		try {
-			result = stringQuery.query();
+			return listQuery.queries();
 		} catch (DataAccessException e) {
 			throw new CustomException(e.getMessage());
 		}
-		return getCmdResult().setStrResult(result);
+	}
+
+	protected CmdResult query(IStringQuery stringQuery) throws CustomException {
+		try {
+			return getCmdResult().setStrResult(stringQuery.query());
+		} catch (DataAccessException e) {
+			throw new CustomException(e.getMessage());
+		}
 	}
 
 	public List<Tree> queryAllResources() throws CustomException {

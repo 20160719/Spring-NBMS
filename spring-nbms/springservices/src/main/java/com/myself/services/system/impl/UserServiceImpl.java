@@ -26,7 +26,7 @@ public class UserServiceImpl extends AbstractSystemService<User> implements IUse
 		return getUserMapper().modifies(list);
 	}
 
-	@Cacheable("users")
+	@Cacheable(cacheNames = "users", key = "'#obj.userId'")
 	public User load(User obj) throws DataAccessException {
 		return getUserMapper().load(obj);
 	}

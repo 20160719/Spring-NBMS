@@ -2,8 +2,6 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,30 +27,26 @@ public class BookTypeAcceptor extends AbstractSystemAcceptor<Tree> implements IB
 	}
 
 	@Override
-	@CacheEvict(value = { "allBookTypeResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getBookTypeService().creates(list), Operation.OP_CREATE);
 	}
 
 	@Override
-	@CacheEvict(value = { "allBookTypeResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int modifies(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getBookTypeService().modifies(list), Operation.OP_MODIFY);
 	}
 
 	@Override
-	@CacheEvict(value = { "allBookTypeResources" }, allEntries = true)
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int deletes(AbsBusinessObj<Tree> absBusinessObj) throws CustomException {
 		return businessAcceptor(absBusinessObj, (list) -> getBookTypeService().deletes(list), Operation.OP_DELETE);
 	}
 
 	@Override
-	@Cacheable("allBookTypeResources")
-	public List<Tree> queryAllResources() {
-		return query(() -> getBookTypeService().queryTrees());
+	public List<Tree> queryAllResources() throws CustomException {
+		return queryTrees();
 	}
 
 	@Override
@@ -61,18 +55,18 @@ public class BookTypeAcceptor extends AbstractSystemAcceptor<Tree> implements IB
 	}
 
 	@Override
-	public List<Tree> queryTrees() {
-		return queryAllResources();
+	public List<Tree> queryTrees() throws CustomException {
+		return query(() -> getBookTypeService().queryTrees());
 	}
 
 	@Override
-	public CmdResult querySeq() {
+	public CmdResult querySeq() throws CustomException {
 		// return query(() -> getBookTypeService().);
 		return null;
 	}
 
 	@Override
-	public void refreshCache() {
-		queryAllResources();
+	public void refreshCache() throws CustomException {
+		queryTrees();
 	}
 }

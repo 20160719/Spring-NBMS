@@ -79,13 +79,8 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	}
 
 	@Override
-<<<<<<< b33ba8c1b659b3ae89a08230535ed3984c2ecc41
-	@Cacheable("allMenuResources")
-	public List<Tree> queryTrees() throws DataAccessException {
-=======
 	public List<Tree> queryTrees() throws CustomException {
->>>>>>> c99431d6b80e207b7d313d5201a2b327c49d2e87
-		return getMenuService().queryTrees();
+		return query(() -> getMenuService().queryTrees());
 	}
 
 	@Override
