@@ -49,7 +49,6 @@ public class UserAcceptor extends AbstractSystemAcceptor<User> implements IUserA
 	}
 
 	@Override
-	//@Cacheable("users")
 	public User load(User user) throws CustomException {
 		try {
 			return getUserService().load(user);

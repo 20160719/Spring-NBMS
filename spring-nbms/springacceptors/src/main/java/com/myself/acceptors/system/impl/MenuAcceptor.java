@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,11 +54,7 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 
 	@Override
 	public List<Tree> queryAllResources() throws CustomException {
-		try {
-			return queryTrees();
-		} catch (DataAccessException e) {
-			throw new CustomException(e.getMessage());
-		}
+		return queryTrees();
 	}
 
 	@Override
