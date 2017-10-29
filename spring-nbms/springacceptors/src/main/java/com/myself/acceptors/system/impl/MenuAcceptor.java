@@ -70,7 +70,7 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 
 	@Override
 	public void refreshCache() throws CustomException {
-		queryAllResources();
+		queryTrees();
 	}
 
 	@Override
