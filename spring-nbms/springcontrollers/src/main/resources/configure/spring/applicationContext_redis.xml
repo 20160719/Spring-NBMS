@@ -27,6 +27,9 @@
 		<property name="maxWaitMillis" value="${redis.maxWait}" />
 		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
 	</bean>
+	
+	<!-- 添加RedisHttpSessionConfiguration用于session共享 -->
+    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
 
 	<!-- 配置JedisConnectionFactory -->
 	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
