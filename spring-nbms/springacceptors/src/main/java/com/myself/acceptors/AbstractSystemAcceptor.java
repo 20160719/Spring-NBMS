@@ -78,23 +78,23 @@ public abstract class AbstractSystemAcceptor<T> extends AbstractAcceptor<T> {
 		return CommonUtils.filterTreeList(treeList, tree);
 	}
 
-	protected final IUserService getUserService() {
+	protected IUserService getUserService() {
 		return this.userService;
 	}
 
-	protected final IRoleService getRoleService() {
+	protected IRoleService getRoleService() {
 		return this.roleService;
 	}
 
-	protected final IMenuService getMenuService() {
+	protected IMenuService getMenuService() {
 		return this.menuService;
 	}
 
-	protected final IPermsService getPermsService() {
+	protected IPermsService getPermsService() {
 		return this.permsService;
 	}
 
-	protected final IOrgService getOrgService() {
+	protected IOrgService getOrgService() {
 		return this.orgService;
 	}
 

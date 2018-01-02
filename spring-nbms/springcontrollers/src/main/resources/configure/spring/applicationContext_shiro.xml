@@ -12,7 +12,15 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myRealm"/>
 		<property name="cacheManager" ref="cacheManager"/>
+		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
+	
+	 <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="sessionDAO"></property>
+    </bean>
+    <!-- 自定义 sessionDAO -->
+    <bean id="sessionDAO" class="com.myself.session.MySessionDaoImpl"></bean>
 	
 	<bean id="chainDefinitionSectionMetaSource" class="com.myself.shiro.ChainDefinitionSectionMetaSource">
 		<property name="filterChainDefinitions">

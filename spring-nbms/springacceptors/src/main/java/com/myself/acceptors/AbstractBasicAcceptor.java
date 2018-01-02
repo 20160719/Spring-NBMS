@@ -9,7 +9,7 @@ public abstract class AbstractBasicAcceptor<T> extends AbstractAcceptor<T> {
 	@Resource(name = "bookServiceImpl")
 	private IBookService bookService;
 
-	protected final IBookService getBookService() {
+	protected IBookService getBookService() {
 		return this.bookService;
 	}
 

@@ -1,6 +1,7 @@
 package com.myself.shiro;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,10 +47,11 @@ public class ChainDefinitionSectionMetaSource implements FactoryBean<Section> {
 		Map<String, List<Tree>> menuMap = menuList.stream().collect(Collectors.groupingBy(Tree::getId));
 
 		for(Map.Entry<String, List<Permission>> entry : setEntry) {
+			System.out.println(entry.getKey() + "->" + Arrays.toString(entry.getValue().toArray()));
 			roleIdList = entry.getValue().stream().map(t -> t.getRoleId()).collect(Collectors.toList());
 			roleIds = StringUtils.mergeToStr(roleIdList);
-//			section.put(menuMap.get(entry.getKey()).get(0).getValue(), MessageFormat.format(ROLE_STRING, roleIds));
-//			System.out.println(menuMap.get(entry.getKey()).get(0).getValue()+ " -> "+ MessageFormat.format(ROLE_STRING, roleIds));
+			//section.put(menuMap.get(entry.getKey()).get(0).getValue(), MessageFormat.format(ROLE_STRING, roleIds));
+			//System.out.println(menuMap.get(entry.getKey()).get(0).getValue()+ " -> "+ MessageFormat.format(ROLE_STRING, roleIds));
 		}
 		return section;
 	}

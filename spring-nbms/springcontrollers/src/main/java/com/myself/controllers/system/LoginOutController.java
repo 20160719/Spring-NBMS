@@ -13,15 +13,21 @@ import com.myself.persistences.entity.system.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping(value = "/system/loginOut")
 public class LoginOutController extends AbstractSystemController<User> {
+	
+	@Resource(name = "securityManager")
+	private SecurityManager securityManager;
 	
 	@RequestMapping(value = "toLogin" + SUFFIX, method = RequestMethod.GET)
 	public String toLogin() {
@@ -30,6 +36,7 @@ public class LoginOutController extends AbstractSystemController<User> {
 	
 	@RequestMapping(value = "login" + SUFFIX, method = RequestMethod.POST)
 	public String login(@ModelAttribute("account") Account account) {
+		SecurityUtils.setSecurityManager(securityManager);
 		UsernamePasswordToken token = new UsernamePasswordToken(account.getAccount(), account.getPassword());
 		setAccount(account.getAccount());
 		Subject subject = SecurityUtils.getSubject();
