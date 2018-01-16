@@ -7,8 +7,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>springbeans</artifactId>
-	<name>beans</name>
-	<description>beans</description>
+	<name>springbeans</name>
+	<description>springbeans</description>
 
 	<dependencies>
 

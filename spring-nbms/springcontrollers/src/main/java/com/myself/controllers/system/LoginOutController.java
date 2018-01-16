@@ -44,6 +44,7 @@ public class LoginOutController extends AbstractSystemController<User> {
 			subject.login(token);
 			subject.getSession().setAttribute("account", account.getAccount());
 			return "redirect:/system/loginOut/content.action";
+//			return "content";
 		} catch (Exception e) {
 			return "redirect:/system/loginOut/toLogin.action";
 		}

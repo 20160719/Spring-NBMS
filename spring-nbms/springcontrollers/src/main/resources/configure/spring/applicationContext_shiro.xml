@@ -15,8 +15,17 @@
 		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
 	
-	 <!-- 会话管理器 -->
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	<!-- 会话管理器 -->
+    <!-- <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    	删除失效session
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <property name="sessionDAO" ref="sessionDAO"></property>
+    </bean> -->
+    
+	<!-- 自定义会话管理器 减少session的读取次数 -->
+    <bean id="sessionManager" class="com.myself.shiro.CustomShiroSessionManager">
+    	<!-- 删除失效session -->
+        <property name="sessionValidationSchedulerEnabled" value="true" />
         <property name="sessionDAO" ref="sessionDAO"></property>
     </bean>
     <!-- 自定义 sessionDAO -->
@@ -25,6 +34,7 @@
 	<bean id="chainDefinitionSectionMetaSource" class="com.myself.shiro.ChainDefinitionSectionMetaSource">
 		<property name="filterChainDefinitions">
 			<value>
+				 /resources/** = anon
            		 /system/loginOut/toLogin.action = anon
 			</value>
 		</property>
@@ -35,13 +45,21 @@
 		<property name="loginUrl" value="/system/loginOut/toLogin.action"/>
 		<property name="successUrl" value="/index.jsp"/>
 		<property name="unauthorizedUrl" value="/system/loginOut/toLogin.action"/>
-		<!--<property name="filterChainDefinitions">
+		<!-- <property name="filterChainDefinitions">
 			<value>
-				/* = authc
+				/resources/** = anon
 			</value>
-		</property>-->
+		</property> -->
+		<property name="filters">  
+            <map>  
+                <entry key="customRolesFilter" value-ref="customRolesFilter"/>  
+            </map>  
+        </property>
+		
 		<property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource"/>
 	</bean>
+	
+	<bean id="customRolesFilter" class="com.myself.shiro.CustomRolesAuthorizationFilter" />  
 	
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
 	
