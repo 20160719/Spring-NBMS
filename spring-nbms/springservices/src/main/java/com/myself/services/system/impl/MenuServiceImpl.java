@@ -3,12 +3,15 @@ package com.myself.services.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.myself.persistences.entity.Tree;
+import com.myself.persistences.mapper.system.MenuMapper;
 import com.myself.services.AbstractSystemService;
 import com.myself.services.system.IMenuService;
 
@@ -16,6 +19,13 @@ import com.myself.services.system.IMenuService;
 public class MenuServiceImpl extends AbstractSystemService<Tree> implements
 		IMenuService {
 
+	@Resource(name = "menuMapper")
+	private MenuMapper menuMapper;
+	
+	protected final MenuMapper getMenuMapper() {
+		return menuMapper;
+	}
+	
 	@Override
 	@CacheEvict(cacheNames = "menus")
 	public Integer creates(List<Tree> list) throws DataAccessException {

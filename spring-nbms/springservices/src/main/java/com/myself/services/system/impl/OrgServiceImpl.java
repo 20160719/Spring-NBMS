@@ -3,11 +3,14 @@ package com.myself.services.system.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.myself.persistences.entity.Tree;
+import com.myself.persistences.mapper.system.OrgMapper;
 import com.myself.services.AbstractSystemService;
 import com.myself.services.system.IOrgService;
 
@@ -15,6 +18,13 @@ import com.myself.services.system.IOrgService;
 public class OrgServiceImpl extends AbstractSystemService<Tree> implements
 		IOrgService {
 
+	@Resource(name = "orgMapper")
+	private OrgMapper orgMapper;
+	
+	protected final OrgMapper getOrgMapper() {
+		return orgMapper;
+	}
+	
 	@Override
 	public Integer creates(List<Tree> list) throws DataAccessException {
 		return getOrgMapper().creates(list);
