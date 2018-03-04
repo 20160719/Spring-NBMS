@@ -2,9 +2,10 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,13 +19,21 @@ import com.myself.exception.CustomException;
 import com.myself.exception.SystemException;
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.Tree;
+import com.myself.services.system.IMenuService;
 
 @Service(value = "menuAcceptor")
-@Scope(value = "prototype")
+//@Scope(value = "prototype")
 public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuAcceptor {
 
 	private static final Logger logger = LoggerFactory.getLogger(MenuAcceptor.class);
 
+	@Resource(name = "menuServiceImpl")
+	private IMenuService menuService;
+	
+	protected IMenuService getMenuService() {
+		return menuService;
+	}
+	
 	@Override
 	protected void init(AbsBusinessObj<Tree> absBusinessObj) {
 		absBusinessObj.setList(CommonUtils.transTree(absBusinessObj.getEntityDto().getTargetJson()));
@@ -76,6 +85,7 @@ public class MenuAcceptor extends AbstractSystemAcceptor<Tree> implements IMenuA
 	@Override
 	public List<Tree> queryTrees() throws CustomException {
 		return query(() -> getMenuService().queryTrees());
+		//return query(() -> ServiceFactory.getMenuService().queryTrees());
 	}
 
 	@Override

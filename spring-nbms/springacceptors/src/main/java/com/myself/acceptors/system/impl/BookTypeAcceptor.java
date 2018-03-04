@@ -2,7 +2,8 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,19 @@ import com.myself.exception.CustomException;
 import com.myself.exception.SystemException;
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.Tree;
+import com.myself.services.system.IBookTypeService;
 
 @Service(value = "bookTypeAcceptor")
-@Scope(value = "prototype")
+//@Scope(value = "prototype")
 public class BookTypeAcceptor extends AbstractSystemAcceptor<Tree> implements IBookTypeAcceptor {
 
+	@Resource(name = "bookTypeServiceImpl")
+	private IBookTypeService bookTypeService;
+	
+	protected IBookTypeService getBookTypeService() {
+		return bookTypeService;
+	}
+	
 	@Override
 	protected void init(AbsBusinessObj<Tree> absBusinessObj) {
 		absBusinessObj.setList(CommonUtils.transTree(absBusinessObj.getEntityDto().getTargetJson()));

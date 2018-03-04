@@ -2,6 +2,8 @@ package com.myself.acceptors.system.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,19 @@ import com.myself.exception.SystemException;
 import com.myself.exception.ValidException;
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.system.User;
+import com.myself.services.system.IUserService;
 
 @Service(value = "userAcceptor")
 @Scope(value = "prototype")
 public class UserAcceptor extends AbstractSystemAcceptor<User> implements IUserAcceptor {
 
+	@Resource(name = "userServiceImpl")
+	private IUserService userService;
+	
+	protected IUserService getUserService() {
+		return userService;
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = SystemException.class)
 	public int creates(AbsBusinessObj<User> absBusinessObj) throws CustomException {

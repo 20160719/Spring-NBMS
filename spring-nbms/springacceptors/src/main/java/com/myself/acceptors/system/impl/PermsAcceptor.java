@@ -3,7 +3,8 @@ package com.myself.acceptors.system.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Scope;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,19 @@ import com.myself.exception.CustomException;
 import com.myself.exception.SystemException;
 import com.myself.persistences.entity.Operation;
 import com.myself.persistences.entity.system.Permission;
+import com.myself.services.system.IPermsService;
 
 @Service(value = "permsAcceptor")
-@Scope(value = "prototype")
+//@Scope(value = "prototype")
 public class PermsAcceptor extends AbstractSystemAcceptor<Permission> implements IPermsAcceptor {
 
+	@Resource(name = "permsServiceImpl")
+	private IPermsService permsService;
+	
+	protected IPermsService getPermsService() {
+		return permsService;
+	}
+	
 	@Override
 	protected void init(AbsBusinessObj<Permission> absBusinessObj) {
 		absBusinessObj.setList(CommonUtils.transTargetList(absBusinessObj.getEntityDto().getTargetJson(), Permission.class));

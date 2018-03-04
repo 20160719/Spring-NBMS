@@ -17,6 +17,7 @@ public abstract class AbstractAcceptor<T> {
 
 	public int businessAcceptor(AbsBusinessObj<T> absBusinessObj, IBeforeAcceptor<T> beforeAcceptor,
 			IDoAcceptor<T> doAcceptor, IAfterAcceptor afterAcceptor, String opType) throws CustomException {
+		absBusinessObj.getOperation().setOpType(opType);
 		beforeAcceptor.beforeAcceptor(absBusinessObj);
 		int count = processing(doAcceptor, absBusinessObj.getList());
 		afterAcceptor.afterAcceptor();
@@ -26,7 +27,6 @@ public abstract class AbstractAcceptor<T> {
 
 	public int businessAcceptor(AbsBusinessObj<T> absBusinessObj, IDoAcceptor<T> doAcceptor, String opType)
 			throws CustomException {
-		absBusinessObj.getOperation().setOpType(opType);
 		return businessAcceptor(absBusinessObj, beforeAcceptor, doAcceptor, afterAcceptor, opType);
 	}
 
@@ -61,16 +61,6 @@ public abstract class AbstractAcceptor<T> {
 		clear();
 		return null;
 	};
-
-	/**
-	 * 杩斿洖涓氬姟瀵硅薄
-	 * 
-	 * @return
-	 * @return CmdResult TODO
-	 */
-	public CmdResult getCmdResult() {
-		return new CmdResult();
-	}
 
 	/**
 	 * 娓呯悊鍚勭瀵硅薄
