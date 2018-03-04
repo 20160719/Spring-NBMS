@@ -139,5 +139,9 @@ public class CmdResult {
 		this.falidBody = falidBody;
 		return this;
 	}
+	
+	public static CmdResult getCmdResult() {
+		return new CmdResult();
+	}
 
 }
